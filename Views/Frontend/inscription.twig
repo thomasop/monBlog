@@ -1,0 +1,48 @@
+
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Inscription' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+    
+{% endblock %}
+{% block body %} 
+        <header>
+        <ul class="navbar">  
+                <li class="nav-item active">
+                <a class="nav-link" href="index.php?r=AfficherAccueil">Accueil</a></li>
+                <li class="nav-item active">
+                <a class="nav-link" href="index.php?r=GetPost">Posts</a></li>
+                <li class="nav-item active">
+                <a class="nav-link" href="index.php?r=admin">Connexion</a></li>
+                
+                
+        </header>
+        <p>inscription</p>
+        <div class="dropdown-menu">
+            <form class="px-4 py-3" action="/blog/register" method="post" style="margin-top: 150px;">
+                <div class="form-group">
+                    <label>Pseudo : </label>
+                    <input type="text" name="pseudo" class="form-control" ></br>
+                </div>
+                <div class="form-group">
+                    <label>Password : </label>
+                    <input type="password" name="motdepasse" class="form-control"></br>
+                </div>
+                <div class="form-group">
+                    <label>Password confirmed: </label>
+                    <input type="password" name="motdepasseconfirmer" class="form-control"></br>
+                </div>
+                
+                <input type="submit" name="checkuser" value="S'inscrire" class="btn btn-primary">
+                <label class="form-check-label">Se souvenir de moi ?<input type="checkbox" class="form-check-input" name="souvenir"></label><br />
+
+
+            </form>
+        </div>
+        
+        
+
+        {% endblock %}

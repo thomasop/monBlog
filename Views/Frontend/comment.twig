@@ -1,0 +1,71 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Comments' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+    
+{% endblock %}
+{% block body %}
+<header>
+        <ul class="navbar">  
+                <li class="nav-item active">
+                <a class="nav-link" href="/blog/">Accueil</a></li>
+                <li class="nav-item active">
+                <a class="nav-link" href="/blog/registration">Inscription</a></li>
+                
+            
+            
+        </header>
+        
+        
+        <a class="nav-link" href="/blog/posts">Retour à la liste des billets</a></p>
+        
+        <div class="new">
+            
+            
+           
+               {{ postview.title }}
+               {{ postview.content }}
+               
+                
+        </div>
+        <form class="formcom" action="/blog/commentadd" method="POST" >
+        <input type="hidden" name="postId" id="" value="{{ postview.id }} " />
+            <div>
+                <label for="author">Auteur</label><br />
+                <input type="text" id="author" name="author"  />
+            </div>
+            <div>
+                <label for="comment">Commentaire</label><br />
+                <textarea id="comment" name="comment" ></textarea>
+            </div>
+            <div>
+            
+                <input type="submit" />
+
+            </div>
+        </form>
+        <div class="com">
+
+            {% for comment in commentsview %}
+            <p>{{ comment.id }}
+                {{ comment.author }}
+                {{ comment.comment }}</p>
+            
+            {% endfor %}
+            
+        </div>
+
+        <footer>
+            <p>Bienvenue sur mon blog professionel, vous pouvez visiter nos posts <a href="index.php?action=GetPost">ici</a></p>
+            <div>
+                <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+                <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
+            </div>      
+            <a href="/blog/connect">Connexion</a>
+        </footer>
+        
+
+{% endblock %} 
