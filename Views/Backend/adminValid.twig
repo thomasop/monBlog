@@ -1,0 +1,43 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Administrateur Valid' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+    
+{% endblock %}
+{% block body %}
+
+
+<header>
+            <ul lass="nav justify-content-center"> 
+                <li class="nav-item"><a href="/blog/connection">admin</a></li>
+                <li class="nav-item"><a href="/blog/connect">Déconnexion</a></li>
+                
+            </ul>
+            
+            
+        </header>
+        
+        <div class="createformpost" style="margin-top: 200px;">
+            <p> 
+
+            {% for admin in loginvalid %}
+            
+                <p>{{ admin.id }}</p>
+              <p> {{ admin.pseudo }}</p>
+                <p>{{ admin.motdepasse }}</p>
+                <p><a href="/blog/adminvalid/{{ admin.id }}">voulez vous valider cet administrateur?</a>
+                </p>
+            
+            {% endfor %}
+            
+            
+           
+            </p>
+
+            
+        </div>
+        
+{% endblock %} 

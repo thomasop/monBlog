@@ -1,0 +1,38 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Administration' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+    
+{% endblock %}
+{% block body %}
+
+
+<header>
+            <ul lass="nav justify-content-center"> 
+                <li class="nav-item"><a href="/blog/admin">Administrateur</a></li>
+                <li class="nav-item"><a href="/blog/postsmanager/{{ user.id }}">Posts</a></li>
+                <li class="nav-item"><a href="/blog/connect">Déconnexion</a></li>
+                
+            </ul>
+            
+            
+        </header>
+        
+        <div class="createformpost" style="margin-top: 200px;">
+            <p> 
+
+            
+            Salut {{ _session.pseudo }}, on est le {{ "now"|date("m/d/Y") }}
+            
+            
+           
+            </p>
+
+            
+        </div>
+        
+{% endblock %} 
+

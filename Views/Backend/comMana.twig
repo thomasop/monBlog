@@ -1,0 +1,49 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Manager Comment' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+    
+{% endblock %}
+{% block body %}
+
+        <header>
+            <ul class="">  
+                <li><a href="index.php?r=index">Accueil</a></li>
+                <li><a href="index.php?r=postsView">Posts</a></li>
+                
+            </ul>
+            
+            
+        </header>
+        
+        <p><a href="index.php?action=postsManager">Retour à la liste des billets</a></p>
+        
+        <div class="new">
+            
+            
+                {{ postsAdminView.title }}
+                {{ postsAdminView.content }}
+                
+        
+            
+                
+        </div>
+        
+            
+
+
+            {% for commentMana in commentsNotvalidView %}
+            <p>{{ commentMana.id }}
+                {{ commentMana.author }}
+                {{ commentMana.comment }}
+            <a href="/blog/commentupdatevalid/{{ commentMana.id }}">voulez vous valider ce commentaire?</a>
+            <a href="/blog/commentupdateform/{{ commentMana.id }}">update</a>
+            <a href="index.php?r=commentDelete&amp;id={{ commentMana.id }}">delete</a>
+            
+            {% endfor %}
+            </p>
+            
+{% endblock %}

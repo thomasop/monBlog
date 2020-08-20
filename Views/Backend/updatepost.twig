@@ -1,0 +1,37 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Modifier Post' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+    
+{% endblock %}
+{% block body %}
+        <header>
+            <ul class="nav justify-content-center">  
+                <li class="nav-item"><a href="index.php?r=index">Accueil</a></li>
+                <li class="nav-item"><a href="index.php?r=connect">Déconnexion</a></li>
+                
+            </ul>
+            
+            
+        </header>
+        
+        <form class="formcom" action="/blog/postupdate/{{ postformview.id }}  " method="post" style="margin-top: 150px;" >
+            <div>
+                <label for="title">title</label><br />
+                <input type="text" id="author" name="title" value=" {{ postformview.title }} "/>
+            </div>
+            <div>
+                <label for="content">content</label><br />
+                
+                <input type="text" name="content" required
+                    minlength="4" maxlength="8999" size="150" value=" {{ postformview.content }} "/>
+            </div>
+            <div>
+                <input type="submit" />
+            </div>
+        </form>
+        
+{% endblock %}   

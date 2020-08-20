@@ -1,0 +1,42 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Manager Post' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+    
+{% endblock %}
+{% block body %}
+
+
+        <header>
+            <ul class="navbar">  
+                <li class="nav-item"><a href="index.php?action=manaPost">Posts</a></li>
+                <li class="nav-item"><a href="index.php?action=AfficherConnexion">Déconnexion</a></li>
+                
+            </ul>
+            
+            
+        </header>
+        <div class="text" style="margin-top: 150px; margin-left: 75px;">
+            <h3>Dernier billet du blog</h3>
+            <a href="/blog/postcreate">Create</a>
+           <p> </p>
+
+
+            {% for post in postsadminview %}
+                    
+                        
+                      <p>  {{ post.id }}
+                      {{ post.title }}
+                      {{ post.content }}
+                      <a href="/blog/commentmanager/{{ post.id }} ">commentaires</a>
+                      <a href="/blog/postform/{{ post.id }}">Update</a>
+                            <a href="/blog/postdelete/{{ post.id }}">Delete</a>
+                        <a href="/blog/postmanager/{{ post.id }}">Commentaires a validé</a>
+                      </p>
+                           
+                    {% endfor %}
+                    
+ {% endblock %}               

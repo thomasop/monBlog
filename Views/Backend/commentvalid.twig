@@ -1,0 +1,52 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Valid Comment' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+    
+{% endblock %}
+{% block body %}
+
+        <header>
+            <ul class="">  
+                <li><a href="index.php?r=index">Accueil</a></li>
+                <li><a href="index.php?r=postsView">Posts</a></li>
+                
+            </ul>
+            
+            
+        </header>
+        
+        <p><a href="index.php?action=postsManager">Retour à la liste des billets</a></p>
+        
+        <div class="new">
+            
+            
+                {{ postCommentAdminView.title }}
+                {{ postCommentAdminView.content }}
+                
+        
+            
+                
+        </div>
+        
+           <p>modifier ou supprimer les commentaires ici</p>
+
+
+            {% for comMana in commentView %}
+            <p>{{ comMana.id }}
+                {{ comMana.author }}
+                {{ comMana.comment }}
+                <a href="/blog/commentupdateform/{{ comMana.id }}">update</a>
+                <a href="/blog/commentdelete/{{ comMana.id }}">delete</a>
+            {% endfor %}
+            
+            
+            </p>
+            
+            
+            
+            
+{% endblock %}
