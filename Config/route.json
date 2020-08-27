@@ -1,0 +1,156 @@
+[{
+	"path" : "/blog/",
+	"controller" : "ControllerIndex",
+	"action" : "index",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/posts",
+	"controller" : "ControllerPost",
+	"action" : "postsView",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/registration",
+	"controller" : "ControllerUser",
+	"action" : "registration",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/register",
+	"controller" : "ControllerUser",
+	"action" : "register",
+	"method" : "POST",
+	"param" : ["pseudo", "motdepasse"]
+},
+{
+	"path" : "/blog/connect",
+	"controller" : "ControllerUser",
+	"action" : "admin",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/comment/[0-9]+",
+	"controller" : "ControllerPost",
+	"action" : "postView",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/admin",
+	"controller" : "ControllerUser",
+	"action" : "adminShows",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/connection",
+	"controller" : "ControllerUser",
+	"action" : "connect",
+	"method" : "POST",
+	"param" : ["pseudo", "motdepasse"]
+},
+{
+	"path" : "/blog/postsmanager/[0-9]+",
+	"controller" : "ControllerPost",
+	"action" : "postsManager",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/commentadd",
+	"controller" : "ControllerComment",
+	"action" : "commentAdd",
+	"method" : "POST",
+	"param" : ["postId", "author", "comment"]
+},
+{
+	"path" : "/blog/commentmanager/[0-9]+",
+	"controller" : "ControllerPost",
+	"action" : "commentManager",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/postform/[0-9]+",
+	"controller" : "ControllerPost",
+	"action" : "postFormUpdate",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/postupdate/[0-9]+",
+	"controller" : "ControllerPost",
+	"action" : "postUpdate",
+	"method" : "POST",
+	"param" : ["title", "content"]
+},
+{
+	"path" : "/blog/postdelete/[0-9]+",
+	"controller" : "ControllerPost",
+	"action" : "postDelete",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/postmanager/[0-9]+",
+	"controller" : "ControllerPost",
+	"action" : "postManager",
+	"method" : "GET",
+	"param" : []
+}
+,
+{
+	"path" : "/blog/postcreate/[0-9]+",
+	"controller" : "ControllerPost",
+	"action" : "postCreate",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/postadd",
+	"controller" : "ControllerPost",
+	"action" : "postAdd",
+	"method" : "POST",
+	"param" : ["utilisateurId", "title", "content"]
+},
+{
+	"path" : "/blog/commentupdatevalid/[0-9]+",
+	"controller" : "ControllerComment",
+	"action" : "commentUpdateValid",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/commentupdateform/[0-9]+",
+	"controller" : "ControllerComment",
+	"action" : "commentUpdateForm",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/commentupdate/[0-9]+",
+	"controller" : "ControllerComment",
+	"action" : "commentUpdate",
+	"method" : "POST",
+	"param" : ["author", "comment"]
+},
+{
+	"path" : "/blog/commentdelete/[0-9]+",
+	"controller" : "ControllerComment",
+	"action" : "commentDelete",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/adminvalid/[0-9]+",
+	"controller" : "ControllerUser",
+	"action" : "adminUpdateValid",
+	"method" : "GET",
+	"param" : []
+}
+]
