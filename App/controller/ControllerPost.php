@@ -3,7 +3,7 @@ namespace App\controller;
 
 use App\manager\PostManager;
 use App\manager\CommentManager;
-use App\manager\adminManager;
+use App\manager\AdminManager;
 class ControllerPost {
     function postView()
     {
@@ -46,15 +46,18 @@ class ControllerPost {
     }
 
     function postUpdate($title, $content){
-        echo 'ok';
+        
         $postUpdateController = new PostManager();
         $updatePostView = $postUpdateController->updatePost($_GET['id'], $title, $content);
-       // header('Location: /blog/connection');
+       
+       echo "<script>alert(\"post creé.\");
+    document.location.href = '/blog/postsmanager/$_SESSION[id]'</script>";
     }
 
     function postCreate(){
-        //$postaddController = new adminManager();
-        //$uty = $postaddController->showAdmin($_GET['id']);
+        $postmanager = new PostManager();
+        $adminmanager = new AdminManager();
+        $admincontroller = $adminmanager->showAdmin($_GET['id']);
         $twigController = new \App\tool\Twig();
         $twigView = $twigController->getTwig();
         $tpl = $twigView->load('Backend/creationpost.twig');
@@ -62,23 +65,19 @@ class ControllerPost {
         
     }
 
-    function postAdd($title, $content)
+    function postAdd($utilisateurId, $title, $content)
     {
         $postAddController = new PostManager();
-        $postAddView = $postAddController->createPost($_SESSION['id_utilisateur'], $title, $content);
+        $gfg = new AdminManager();
+        $postAddView = $postAddController->createPost($utilisateurId, $title, $content);
         
         if ($postAddView === false) {
             throw new Exception('Impossible d\'ajouter le post !');
             }
         else {
-            //$postAddController = new PostManager();
-            //$postsAdminsView = $postAddController->showPosts();
-            //$twigController = new \App\tool\Twig();
-            //$twigView = $twigController->getTwig();
-            //$tpl = $twigView->load('Backend/postMana.twig');
-           //echo $tpl->render(array('postsAdminsView' => $postsAdminsView));
-            header('Location: index.php?r=postsManager');
-            //var_dump($affecte);
+           echo "<script>alert(\"post creé.\");
+    document.location.href = '/blog/postsmanager/$_SESSION[id]'</script>";
+            
             }
     }   
     function postDelete(){
@@ -86,14 +85,9 @@ class ControllerPost {
         $postDeleteView = $postDeleteController->deletePost($_GET['id']);
         $postsAdmin = new PostManager();
         $postsAdminView = $postsAdmin->showPosts();
-        //header('Location: index.php?action=manaPost');
-        echo "le post a ete supprimer";
-        //require('Views/postDelete.php');
-        //header('Location: index.php?r=postManager');
-        $twigController = new \App\tool\Twig();
-        $twigView = $twigController->getTwig();
-        $tpl = $twigView->load('Backend/postMana.twig');
-        echo $tpl->render(array('postsAdminView' => $postsAdminView));
+        echo "<script>alert(\"post supprimé.\");
+    document.location.href = '/blog/postsmanager/$_SESSION[id]'</script>";
+        
     } 
     function postManager(){
         $postAdminController = new PostManager();
@@ -104,7 +98,7 @@ class ControllerPost {
         $twigView = $twigController->getTwig();
         $tpl = $twigView->load('Backend/comMana.twig');
         echo $tpl->render(array('postsAdminView' => $postAdminView, 'commentsNotvalidView' => $commentsNotvalidView));
-        //require('Views/comMana.php');
+        
     }  
     function commentManager(){
         $postAdminController = new PostManager();
@@ -115,6 +109,6 @@ class ControllerPost {
         $twigView = $twigController->getTwig();
         $tpl = $twigView->load('Backend/commentvalid.twig');
         echo $tpl->render(array('postCommentAdminView' => $postCommentAdminView, 'commentView' => $commentView));
-        //require('Views/comMana.php');
+        
     }       
 }

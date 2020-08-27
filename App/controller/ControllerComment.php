@@ -29,30 +29,29 @@ function commentDelete(){
     $commentDeleteController = new CommentManager();
     $commentDeleteView = $commentDeleteController->deleteComment($_GET['id']);
     echo "<script>alert(\"commentaire supprimé.\");
-    document.location.href = '/blog/comment/$postid'</script>";
+    document.location.href = '/blog/postsmanager/$_SESSION[id]'</script>";
 } 
 
 function commentUpdate($author, $comment){
         
     $commentUpdateController = new CommentManager();
     $commentUpdateView = $commentUpdateController->updateComment($_GET['id'], $author, $comment);
-    //header('Location: index.php?r=postsManager');
+    echo "<script>alert(\"commentaire supprimé.\");
+    document.location.href = '/blog/postsmanager/$_SESSION[id]'</script>";
 }
 function commentUpdateForm(){
     $formCommentUpdate = new CommentManager();
         $formCommentViews = $formCommentUpdate->showComment($_GET['id']);
-        //var_dump($formCommentViews);
+        //var_dump($formCommentUpdate);
         $twigController = new \App\tool\Twig();
         $twigView = $twigController->getTwig();
         $tpl = $twigView->load('Backend/updatecomment.twig');
         echo $tpl->render(array('formCommentViews' => $formCommentViews));
 }
 function commentUpdateValid(){
-    //echo'ok';
     $validCommentUpdate = new CommentManager();
     $validCommentView = $validCommentUpdate->updateCommentValid($_GET['id']);
-   // header('Location: index.php?r=postsManager');
    echo "<script>alert(\"commentaire validé.\");
-           document.location.href = '/blog/postmanager/'</script>";
+           document.location.href = '/blog/postsmanager/$_SESSION[id]'</script>";
 }
 }

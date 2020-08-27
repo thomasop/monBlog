@@ -6,10 +6,12 @@ use App\manager\PostManager;
 use App\manager\CommentManager;
 class ControllerUser {
      function admin(){ 
+        $token = md5(bin2hex(openssl_random_pseudo_bytes(6)));
+        $_SESSION['token'] = $token;
         $twigController = new \App\tool\Twig();
         $twigView = $twigController->getTwig();
         $tpl = $twigView->load('Frontend/connexion.twig');
-        echo $tpl->render();
+        echo $tpl->render(array('token' => $token));
     }
     function registration(){
     
@@ -31,7 +33,6 @@ class ControllerUser {
     function adminUpdateValid(){
         
         $validAdminUpdate = new AdminManager();
-        //var_dump($validAdminUpdate->updateAdminValid($_GET['id']));
         $validAdminView = $validAdminUpdate->updateAdminValid($_GET['id']);
         
         echo "<script>alert(\"Compte validé.\");
@@ -40,18 +41,14 @@ class ControllerUser {
     
     function connect($pseudo, $motdepasse)
     {
-        //$pseudo = $_POST['pseudo'];
-        //$motdepasse = $_POST['motdepasse'];
-        //var_dump($pseudo);
-        //var_dump($motdepasse);
-        //require_once('Views/Backend/pageAdmin.twig');
+        
         
         $loginManager = new adminManager();
         $login = $loginManager->adminOk($pseudo, $motdepasse);
      
         
        $user = $login->fetch(PDO::FETCH_OBJ);
-     //var_dump($user);
+     
        if (!$user) { 
            
            
@@ -65,46 +62,32 @@ class ControllerUser {
            
            $mdp = $user->motdepasse;
            $validPassword = password_verify($_POST['motdepasse'], $mdp);
-           //var_dump($mdp);
-           if($validPassword){
+           
+           if($validPassword && isset($_SESSION['token']) && isset($_POST['token'])){
             $_SESSION['pseudo'] = $_POST['pseudo'];
+            $_SESSION['motdepasse'] = $_POST['motdepasse'];
+            $_SESSION['id'] = $user->id;
+           
+            
+           if(isset($_COOKIE['ticket']) && isset($_SESSION['ticket'])){
+            if($_COOKIE['ticket'] == $_SESSION['ticket'] && $_POST['token'] == $_SESSION['token']){
            $twigController = new \App\tool\Twig();
                 $twigView = $twigController->getTwig();
                 $tpl = $twigView->load('Backend/pageAdmin.twig');
                 echo $tpl->render(array('user' => $user));
-       }}
+       }}}
+      
        
-           /*
-           if(isset($_SESSION['token']) && isset($_POST['token']) && $validPassword){
-                
-                //require ('Views/pageAdmin.php');
-                $_SESSION['pseudo'] = $_POST['pseudo'];
-                if($_SESSION['token'] == $_POST['token']){
-                //var_dump($_SESSION['token']);
-                $twigController = new \App\tool\Twig();
-                $twigView = $twigController->getTwig();
-                $tpl = $twigView->load('Backend/pageAdmin.twig');
-                echo $tpl->render(array('user' => $user));
-                
-               }
-           }
-           else{
-            
-               echo "<script>alert(\"Mot de passe incorrect\");
-               document.location.href = 'index.php?action=admin'</script>";
-               
-           }
-       }
-    */
 }
        function register($pseudo, $motdepasse){
            $motdepasse = password_hash($motdepasse, PASSWORD_DEFAULT);
             $registerManager = new adminManager();
             $register = $registerManager->adminInscription($pseudo, $motdepasse);
-            //echo "Votre compte a été créé, vous pouvez maintenant vous connecter!";
+            
             echo "<script>alert(\"Votre compte a été créé, un administrateur validera votre compte.\");
            document.location.href = '/blog/connect'</script>";
-            //header('location: index.php?r=admin');
+           
             
             }
        }
+    }
