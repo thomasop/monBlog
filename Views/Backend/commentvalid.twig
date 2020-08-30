@@ -10,16 +10,18 @@
 {% block body %}
 
         <header>
-            <ul class="">  
-                <li><a href="index.php?r=index">Accueil</a></li>
-                <li><a href="index.php?r=postsView">Posts</a></li>
+            <ul class="navbar navbar-dark bg-primary">  
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="index.php?r=index">Accueil</a></li>
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="index.php?r=postsView">Posts</a></li>
                 
             </ul>
             
             
         </header>
         
-        <p><a href="index.php?action=postsManager">Retour à la liste des billets</a></p>
+        <p><a href="/blog/postsmanager/{{ postCommentAdminView.id_utilisateur }}">Retour à la liste des billets</a></p>
         
         <div class="new">
             
@@ -39,14 +41,12 @@
             <p>{{ comMana.id }}
                 {{ comMana.author }}
                 {{ comMana.comment }}
-                <a href="/blog/commentupdateform/{{ comMana.id }}">update</a>
-                <a href="/blog/commentdelete/{{ comMana.id }}">delete</a>
+                {{ comMana.comment_date }}
+                <a class="btn btn-danger" href="/blog/commentupdateform/{{ comMana.id }}">update</a>
+                
+                <a class="btn btn-primary" href="/blog/commentdelete/{{ comMana.id }}">delete</a>
             {% endfor %}
             
             
             </p>
-            
-            
-            
-            
 {% endblock %}

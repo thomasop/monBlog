@@ -11,31 +11,33 @@
 
 
 <header>
-            <ul lass="nav justify-content-center"> 
-                <li class="nav-item"><a href="/blog/connection">admin</a></li>
-                <li class="nav-item"><a href="/blog/connect">Déconnexion</a></li>
+            <ul class="navbar navbar-dark bg-primary"> 
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="/blog/connection">admin</a></li>
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="/blog/connect">Déconnexion</a></li>
                 
             </ul>
             
             
         </header>
-        
-        <div class="createformpost" style="margin-top: 200px;">
-            <p> 
+        <p>Administrateur a validé</p>
+        <div>
+             
 
             {% for admin in loginvalid %}
             
-                <p>{{ admin.id }}</p>
-              <p> {{ admin.pseudo }}</p>
-                <p>{{ admin.motdepasse }}</p>
-                <p><a href="/blog/adminvalid/{{ admin.id }}">voulez vous valider cet administrateur?</a>
+                <p>{{ admin.id }}
+               {{ admin.pseudo }}
+                {{ admin.motdepasse }}
+                <a href="/blog/adminvalid/{{ admin.id }}">voulez vous valider cet administrateur?</a>
                 </p>
             
             {% endfor %}
             
             
            
-            </p>
+            
 
             
         </div>

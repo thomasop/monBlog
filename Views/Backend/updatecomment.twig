@@ -9,28 +9,29 @@
 {% endblock %}
 {% block body %}
         <header>
-            <ul class="nav justify-content-center">  
-                <li class="nav-item"><a href="index.php?r=index">Accueil</a></li>
-                <li class="nav-item"><a href="index.php?r=connect">Déconnexion</a></li>
+            <ul class="navbar navbar-dark bg-primary" >  
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="/blog/">Accueil</a></li>
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="/blog/connect">Deconnection</a></li>
+                
                 
             </ul>
             
             
         </header>
-        
-        <form class="formcom" action="/blog/commentupdate/{{ formCommentViews.id }} " method="post" style="margin-top: 150px;" >
-            <div>
+        <p><a href="/blog/postmanager/{{ formCommentViews.postId }}">Retour au billet</a></p>
+        <form action="/blog/commentupdate/{{ formCommentViews.id }} " method="post" style="margin-top: 50px;" >
+            <div class="form-group">
                 <label for="title">title</label><br />
-                <input type="text" id="author" name="author" value=" {{ formCommentViews.author }} "/>
+                <input class="form-control" type="text" id="author" name="author" value=" {{ formCommentViews.author }} "/>
             </div>
-            <div>
+            <divclass="form-group">
                 <label for="content">content</label><br />
-                
-                <input type="text" name="comment" required
-                    minlength="4" maxlength="8999" size="150" value=" {{ formCommentViews.comment }} "/>
+                <input class="form-control" type="text" name="comment" value=" {{ formCommentViews.comment }} "/>
             </div>
             <div>
-                <input type="submit" />
+                <input type="submit" value="Modifier" class="btn btn-primary "/>
                 
             </div>
         </form>
