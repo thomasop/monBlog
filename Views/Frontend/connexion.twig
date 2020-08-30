@@ -9,42 +9,51 @@
 {% endblock %}
 {% block body %}
         <header>
-        <ul class="navbar">  
-                <li class="nav-item active">
-                <a class="nav-link" href="/blog/">Accueil</a></li>
-                <li class="nav-item active">
-                <a class="nav-link" href="/blog/posts">Posts</a></li>
-                <li class="nav-item active">
-                <a class="nav-link" href="/blog/registration">Inscription</a></li>
+        <ul class="navbar navbar-dark bg-primary">  
+                <li class="nav-item active list-inline-item">
+                <a class="navbar-brand" href="/blog/">Accueil</a></li>
+                <li class="nav-item active list-inline-item">
+                <a class="navbar-brand" href="/blog/posts">Posts</a></li>
+                <li class="nav-item active list-inline-item">
+                <a class="navbar-brand" href="/blog/registration">Inscription</a></li>
                 
         </header>
-        <div class="dropdown-menu">
-            <form class="px-4 py-3" action="/blog/connection" method="POST" style="margin-top: 150px;">
-                <div class="form-group">
-                    <label>Pseudo : </label>
-                    <input type="text" name="pseudo" class="form-control" ></br>
+        <p> Se connecter</p>
+        <form class="form-group" action="/blog/connection" method="POST" style="margin-top: 50px;">
+            <div class="form-group">
+                <label>Pseudo : </label>
+                <input type="text" name="pseudo" class="form-control" ></br>
+            </div>
+            <div class="form-group">
+                <label>Password : </label>
+                <input type="password" name="motdepasse" class="form-control"></br>
+            </div>
+            <input type="submit" name="checkconnexion" value="Se connecter" class="btn btn-primary">
+            <input type="hidden" name="token" id="token" value="{{ token }}" />
+        </form>
+            
+    
+        <footer class="text-white bg-primary mb-3 card-group">
+            <div class="card-body">
+                <p>Bienvenue sur mon blog professionel, vous pouvez visiter nos posts <a class="text-danger" href="/blog/posts">ici</a></p>
+            </div>
+            <div class="card-body">
+                <div>
+                    <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+                    <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
                 </div>
-                <div class="form-group">
-                    <label>Password : </label>
-                    <input type="password" name="motdepasse" class="form-control"></br>
+                <div>
+                    <a class="text-danger" href="Public/CVtype.png">Mon CV est disponible ici!</a>
                 </div>
-                <input type="submit" name="checkconnexion" value="Se connecter" class="btn btn-primary">
-                <input type="hidden" name="token" id="token" value=" {{ token }} " />
-                <label class="form-check-label">Se souvenir de moi ?<input type="checkbox" class="form-check-input" name="souvenir"></label><br />
-
-
-            </form>
-        </div>
-        <footer>
-            <p>Bienvenue sur mon blog professionel, vous pouvez visiter nos posts <a href="index.php?action=GetPost">ici</a></p>
-            <div>
-                <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
-                <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
-            </div>      
-            <a href="/blog/connect">Connexion</a>
+            </div> 
+            <div class="card-body">     
+            <a class="text-danger" href="/blog/connect">Connexion</a>
+            </div>
         </footer>
         
 
 {% endblock %} 
+
+
 
 

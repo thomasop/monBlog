@@ -9,32 +9,33 @@
 {% endblock %}
 {% block body %}
         <header>
-            <ul class="navbar" >  
-                <li class="nav-item active">
-                <a class="nav-link" href="/blog/">Accueil</a></li>
-                <li class="nav-item active">
-                <a class="nav-link" href="/blog/posts">Posts</a></li>
-                <li class="nav-item active">
-                <a class="nav-link" href="/blog/registration">Inscription</a></li>
+            <ul class="navbar navbar-dark bg-primary" >  
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="/blog/">Accueil</a></li>
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="/blog/posts">Posts</a></li>
+                <li class="nav-item list-inline-item">
+                <a class="navbar-brand" href="/blog/registration">Inscription</a></li>
                 
                 
             </ul>
             
        
         </header>
-        <img src="image/ciel.jpg" class="ciel">
-        <article class="descrip-blog">
-            <section class="descrip">
+        
+        <article class="card">
+            <section class="img-fluid" style="margin-left: auto; margin-right: auto;">
+                <img src="Public/photomoi.jpg">
+            </section>
+            <section class="card-body card-text">
                 <h4>Bonjour et bienvenue sur mon blog professionel, je suis Thomas DA SILVA et je suis le dévelloppeur qu'il vous faut</h4>
                 <p>C'est mon tout premier blog et je vais vous presenter mes differents projets, articles et des nouvautées.</p>
                 <p>Je suis en train de faire une formation openclassroom.</p>
             </section>
-            <section class="photo">
-                <img class="photomoi" src="image/photomoi2.jpg">
-            </section>
+            
         </article>
-        <p class="formcontact">Formulaire de contact</p>
-        <form action="traitement.php" method="post" class="formulaire">
+        <p class="group">Formulaire de contact</p>
+        <form action="treatment.php" method="post" style="width: 400px;">
             <div class="form-group">
                 <label>Nom </label>
                 <input type="text" name="nom" class="form-control"></br>
@@ -51,20 +52,27 @@
                 <label>Message </label> 
                 <input type="text" name="message" class="form-control"></br>
             </div>
-            <input type="submit" value="Envoyé" class="btn btn-primary">
+            <input type="submit" value="Envoyé" class="btn btn-primary ">
         </form>
-        <a href="image/CVtype.png">Mon CV est disponible ici!</a>
+        <a class="" href="Public/CVtype.png">Mon CV est disponible ici!</a>
         
-        <footer>
-            <p>Bienvenue sur mon blog professionel, vous pouvez visiter nos posts <a href="index.php?action=GetPost">ici</a></p>
-            <div>
-                <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
-                <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
-            </div>      
-            <a href="/blog/connect">Connexion</a>
+        <footer class="text-white bg-primary mb-3 card-group">
+            <div class="card-body">
+                <p>Bienvenue sur mon blog professionel, vous pouvez visiter nos posts <a class="text-danger" href="/blog/posts">ici</a></p>
+            </div>
+            <div class="card-body">
+                <div>
+                    <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+                    <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
+                </div>
+                <div>
+                    <a class="text-danger" href="Public/CVtype.png">Mon CV est disponible ici!</a>
+                </div>
+            </div> 
+            <div class="card-body">     
+            <a class="text-danger" href="/blog/connect">Connexion</a>
+            </div>
         </footer>
 {% endblock %}
         
  
-
-    
