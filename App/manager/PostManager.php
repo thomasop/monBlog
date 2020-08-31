@@ -1,67 +1,70 @@
 <?php
+
 namespace App\manager;
 
-//require('vendor/autoload.php');
-
 require_once('App/manager/Manager.php');
+
 use PDO;
 use App\entity\Post;
+
 class PostManager extends Manager
 {
-    public function showPosts() 
+    public function showPosts()
     { 
         $bd = $this->connection();
         $bdposts = $bd->prepare('SELECT id, title, content FROM posts ORDER BY id DESC LIMIT 0, 10');
         $bdposts->execute();
         $posts = [];
-        while( ($row = $bdposts->fetch(PDO::FETCH_ASSOC)) !== false)
-        {
-            
+        while (($row = $bdposts->fetch(PDO::FETCH_ASSOC)) !== false) {
             $post = new Post([
-                'id'=>$row['id'],
+                'id'=>$row['id']. "\n",
                 'title'=>$row['title'],
                 'content'=>$row['content'],
             ]);
 
             $posts[] = $post;
         }
-
         return $posts;
     }
-    public function showPostsUser($id_utilisateur) 
+    public function showPostsUser($id_utilisateur)
     { 
         $bd = $this->connection();
-        $bdpostsuser = $bd->prepare('SELECT id, title, content FROM posts WHERE id_utilisateur = ? ORDER BY id DESC LIMIT 0, 10');
+        $bdpostsuser = $bd->prepare('SELECT id, id_utilisateur, title, content FROM posts WHERE id_utilisateur = ? ORDER BY id DESC LIMIT 0, 10');
         $bdpostsuser->execute(array($id_utilisateur));
         $postsuser = [];
-        while( ($row = $bdpostsuser->fetch(PDO::FETCH_ASSOC)) !== false)
-        {
+        while (($row = $bdpostsuser->fetch(PDO::FETCH_ASSOC)) !== false) {
             $postuser = new Post([
                 'id'=>$row['id'],
+                'id_utilisateur'=>$row['id_utilisateur'],
                 'title'=>$row['title'],
                 'content'=>$row['content'],
             ]);
 
             $postsuser[] = $postuser;
         }
-
         return $postsuser;
     }
     public function showPost($postId)
     {
         $bd = $this->connection();
-        $bdpost = $bd->prepare('SELECT id, title, content FROM posts WHERE id = ?');
+        $bdpost = $bd->prepare('SELECT id, id_utilisateur, title, content FROM posts WHERE id = ?');
         $bdpost->execute(array($postId));
         $post = $bdpost->fetch();
         return $post;
-
+    }
+    public function showPostUser($utilisateurId)
+    {
+        $bd = $this->connection();
+        $bdpost = $bd->prepare('SELECT id, id_utilisateur,  title, content FROM posts WHERE id = ?');
+        $bdpost->execute(array($utilisateurId));
+        $post = $bdpost->fetch();
+        return $post;
     }
     public function createPost($utilisateurId, $title, $content)
     {
         $bd = $this->connection();
         $bdpostadd = $bd->prepare('INSERT INTO posts (id_utilisateur, title, content) VALUES(?, ?, ?)');
         $postadd = $bdpostadd->execute(array($utilisateurId, $title, $content));
-
         return $postadd;
     }
     public function updatePost($postId, $title, $content)
