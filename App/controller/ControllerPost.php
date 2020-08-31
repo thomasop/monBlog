@@ -1,10 +1,13 @@
 <?php
+
 namespace App\controller;
 
 use App\manager\PostManager;
 use App\manager\CommentManager;
 use App\manager\AdminManager;
-class ControllerPost {
+
+class ControllerPost
+{
     function postView()
     {
         $postmanager = new PostManager();
@@ -13,102 +16,104 @@ class ControllerPost {
         $commentsview = $commentsmanager->showComments($_GET['id']);
         $twigcontroller = new \App\tool\Twig();
         $twigview = $twigcontroller->getTwig();
-        $twigcommentview = $twigview->load('Frontend/comment.twig');
-        echo $twigcommentview->render(array('postview' => $postview,
+        $twigpostview = $twigview->load('Frontend/comment.twig');
+        echo $twigpostview->render(array('postview' => $postview,
                                 'commentsview' => $commentsview));    
     }
 
-    function postsView(){
+    function postsView()
+    {
         $postsmanager = new PostManager();
         $postsview = $postsmanager->showPosts();
         $twigcontroller = new \App\tool\Twig();
         $twigview = $twigcontroller->getTwig();
-        $twigpostview = $twigview->load('Frontend/post.twig');
-        echo $twigpostview->render(array('postsview' => $postsview));
+        $twigpostsview = $twigview->load('Frontend/posts.twig');
+        echo $twigpostsview->render(array('postsview' => $postsview));
     }
 
-    function postsManager(){
-        $postsadminmanager = new PostManager();
-        $postsadminview = $postsadminmanager->showPostsUser($_GET['id']);
+    function postsManager()
+    {
+        $postsmanager = new PostManager();
+        $postsadminview = $postsmanager->showPostsUser($_GET['id']);
         $twigcontroller = new \App\tool\Twig();
         $twigview = $twigcontroller->getTwig();
-        $twigpostadminview = $twigview->load('Backend/postMana.twig');
-        echo $twigpostadminview->render(array('postsadminview' => $postsadminview));
+        $twigpostsmanager = $twigview->load('Backend/managerposts.twig');
+        echo $twigpostsmanager->render(array('postsadminview' => $postsadminview));
     }
 
-    function postFormUpdate(){
-        $postformmanager = new PostManager();
-        $postformview = $postformmanager->showPost($_GET['id']);
+    function postFormUpdate()
+    {
+        $postmanager = new PostManager();
+        $postformview = $postmanager->showPost($_GET['id']);
         $twigcontroller = new \App\tool\Twig();
         $twigview = $twigcontroller->getTwig();
-        $twigpostformview = $twigview->load('Backend/updatepost.twig');
-        echo $twigpostformview->render(array('postformview' => $postformview));
+        $twigpostformupdate = $twigview->load('Backend/managerupdatepost.twig');
+        echo $twigpostformupdate->render(array('postformview' => $postformview));
     }
 
-    function postUpdate($title, $content){
-        
-        $postUpdateController = new PostManager();
-        $updatePostView = $postUpdateController->updatePost($_GET['id'], $title, $content);
-       
-       echo "<script>alert(\"post creé.\");
-    document.location.href = '/blog/postsmanager/$_SESSION[id]'</script>";
+    function postUpdate($title, $content)
+    {
+        $postmanager = new PostManager();
+        $updatepostview = $postmanager->updatePost($_GET['id'], $title, $content);
+        echo "<script>alert(\"post creé.\");
+        document.location.href = '/blog/postsmanager/$_SESSION[id]'</script>";
     }
 
-    function postCreate(){
+    function postCreate()
+    {
         $postmanager = new PostManager();
         $adminmanager = new AdminManager();
-        $admincontroller = $adminmanager->showAdmin($_GET['id']);
-        $twigController = new \App\tool\Twig();
-        $twigView = $twigController->getTwig();
-        $tpl = $twigView->load('Backend/creationpost.twig');
-        echo $tpl->render();
-        
+        $adminview = $adminmanager->showAdmin($_GET['id']);
+        $twigcontroller = new \App\tool\Twig();
+        $twigview = $twigcontroller->getTwig();
+        $twigpostcreate = $twigview->load('Backend/managercreatepost.twig');
+        echo $twigpostcreate->render();  
     }
 
     function postAdd($utilisateurId, $title, $content)
     {
-        $postAddController = new PostManager();
-        $gfg = new AdminManager();
-        $postAddView = $postAddController->createPost($utilisateurId, $title, $content);
-        
-        if ($postAddView === false) {
+        $postmanager = new PostManager();
+        $adminmanager = new AdminManager();
+        $postaddview = $postmanager->createPost($utilisateurId, $title, $content);
+
+        if ($postaddview === false) {
             throw new Exception('Impossible d\'ajouter le post !');
-            }
-        else {
-           echo "<script>alert(\"post creé.\");
-    document.location.href = '/blog/postsmanager/$_SESSION[id]'</script>";
-            
-            }
-    }   
-    function postDelete(){
-        $postDeleteController = new PostManager();
-        $postDeleteView = $postDeleteController->deletePost($_GET['id']);
-        $postsAdmin = new PostManager();
-        $postsAdminView = $postsAdmin->showPosts();
+        } else {
+            echo "<script>alert(\"post creé.\");
+            document.location.href = '/blog/postsmanager/$_SESSION[id]'</script>";
+        }
+    }
+
+    function postDelete()
+    {
+        $postmanager = new PostManager();
+        $postdeleteview = $postmanager->deletePost($_GET['id']);
+        $postsadminview = $postmanager->showPosts();
         echo "<script>alert(\"post supprimé.\");
-    document.location.href = '/blog/postsmanager/$_SESSION[id]'</script>";
-        
-    } 
-    function postManager(){
-        $postAdminController = new PostManager();
-        $commentsnotvalidController = new CommentManager();
-        $postAdminView = $postAdminController->showPost($_GET['id']);
-        $commentsNotvalidView = $commentsnotvalidController->showCommentsNotValid($_GET['id']);
-        $twigController = new \App\tool\Twig();
-        $twigView = $twigController->getTwig();
-        $tpl = $twigView->load('Backend/comMana.twig');
-        echo $tpl->render(array('postsAdminView' => $postAdminView, 'commentsNotvalidView' => $commentsNotvalidView));
-        
-    }  
-    function commentManager(){
-        $postAdminController = new PostManager();
-        $commentsvalidController = new CommentManager();
-        $postCommentAdminView = $postAdminController->showPost($_GET['id']);
-        $commentView = $commentsvalidController->showComments($_GET['id']);
-        $twigController = new \App\tool\Twig();
-        $twigView = $twigController->getTwig();
-        $tpl = $twigView->load('Backend/commentvalid.twig');
-        echo $tpl->render(array('postCommentAdminView' => $postCommentAdminView, 'commentView' => $commentView));
-        
+        document.location.href = '/blog/postsmanager/$_SESSION[id]'</script>";   
+    }
+
+    function postManager()
+    {
+        $postmanager = new PostManager();
+        $commentmanager = new CommentManager();
+        $postAdminView = $postmanager->showPost($_GET['id']);
+        $commentsNotvalidView = $commentmanager->showCommentsNotValid($_GET['id']);
+        $twigcontroller = new \App\tool\Twig();
+        $twigview = $twigcontroller->getTwig();
+        $twigpostmanager = $twigview->load('Backend/managercomment.twig');
+        echo $twigpostmanager->render(array('postsAdminView' => $postAdminView, 'commentsNotvalidView' => $commentsNotvalidView));
+    }
+
+    function commentManager()
+    {
+        $postmanager = new PostManager();
+        $commentmanager = new CommentManager();
+        $postCommentAdminView = $postmanager->showPost($_GET['id']);
+        $commentView = $commentmanager->showComments($_GET['id']);
+        $twigcontroller = new \App\tool\Twig();
+        $twigview = $twigcontroller->getTwig();
+        $twigcommentmanager = $twigview->load('Backend/managercommentvalid.twig');
+        echo $twigcommentmanager->render(array('postCommentAdminView' => $postCommentAdminView, 'commentView' => $commentView));  
     }       
 }

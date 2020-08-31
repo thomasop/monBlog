@@ -1,11 +1,14 @@
 <?php
+
 namespace App\controller;
 
-class ControllerIndex{
-    function index(){
-      $twigController = new \App\tool\Twig();
-        $twigView = $twigController->getTwig();
-        $tpl = $twigView->load('Frontend/Accueil.twig');
-        echo $tpl->render();
+class ControllerIndex
+{
+    function index()
+    {
+        $twigcontroller = new \App\tool\Twig();
+        $twigview = $twigcontroller->getTwig();
+        $twigindex = $twigview->load('Frontend/home.twig');
+        echo $twigindex->render();
     }
 }
