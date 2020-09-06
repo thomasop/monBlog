@@ -1,13 +1,12 @@
 <?php
 
 namespace App\controller;
-
-class ControllerIndex
+require_once('App/Controller/Controller.php');
+class ControllerIndex extends Controller
 {
     function index()
     {
-        $twigcontroller = new \App\tool\Twig();
-        $twigview = $twigcontroller->getTwig();
+        $twigview = $this->getTwig();     
         $twigindex = $twigview->load('Frontend/home.twig');
         echo $twigindex->render();
     }
