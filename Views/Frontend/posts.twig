@@ -1,0 +1,49 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Posts' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+<header>
+    <ul class="navbar navbar-dark bg-primary">  
+        <li class="nav-item list-inline-item">
+        <a class="navbar-brand" href="/blog/">Accueil</a></li>
+        <li class="nav-item list-inline-item">
+        <a class="navbar-brand" href="/blog/registration">Inscription</a></li>
+    </ul>
+</header>         
+<div class="card" >
+    <h3 class="card-header">Dernier billet du blog</h3>
+    {% for post in postsview %}
+    <div class="card-body" > 
+        <h5 class="card-title">{{ post.title |upper}} </h5>
+        <p class="card-text">{{ post.chapo }}....</p>
+        <p>Derniere modification : {{ post.date_modif }}</p>
+        <a class="btn btn-primary" href="/blog/comment/{{ post.id }}">Suite de l'article</a><br>
+    </div>         
+    {% endfor %} 
+</div>
+<footer class="text-white bg-primary mb-3 card-group">
+    <div class="card-body">
+        <p>Bienvenue sur mon blog professionel, vous pouvez visiter nos posts <a class="text-danger" href="/blog/posts">ici</a></p>
+    </div>
+    <div class="card-body">
+        <div>
+            <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+            <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
+        </div>
+        <div>
+            <a class="text-danger" href="Public/CVtype.png">Mon CV est disponible ici!</a>
+        </div>
+    </div> 
+    <div class="card-body">     
+    <a class="text-danger" href="/blog/connect">Connexion</a>
+    </div>
+</footer>
+{% endblock %}
+
+
+
