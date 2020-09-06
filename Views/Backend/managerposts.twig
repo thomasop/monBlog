@@ -1,0 +1,40 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Manager Post' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    {% if _flash.getFlashMessage('succes') %}
+        <div class="alert alert-success mt-4" role="alert">
+          <p>{{ _flash.getFlashMessage('succes') }}</p>
+        </div>
+    {% endif %}
+    <header>
+        <ul class="navbar navbar-dark bg-primary">
+        <li class="nav-item list-inline-item"> 
+          <a class="navbar-brand" href="/blog/admin/{{ _session.id }}">Admin</a></li>
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="/blog/postsmanager/{{ _session.id }}">Posts</a></li>
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="/blog/logout">Déconnexion</a></li>
+        </ul>     
+    </header>
+    <div style="margin-top: 100px; margin-left: 50px;">
+        <h3>Dernier billet du blog</h3>
+        <a class="btn btn-primary" href="/blog/postcreate/{{ _session.id }}">Create</a>
+        {% for post in postsadminview %}    
+        <p>
+        {{ post.title |upper}} : 
+        chapo :{{ post.chapo }}
+        contenue :{{ post.content }}
+        <a class="btn btn-danger" href="/blog/commentmanager/{{ post.id }} ">commentaires</a>
+        <a class="btn btn-primary" href="/blog/postform/{{ post.id }}">Update</a>
+              <a class="btn btn-danger" href="/blog/postdelete/{{ post.id }}">Delete</a>
+          <a class="btn btn-primary" href="/blog/postmanager/{{ post.id }}">Commentaires a validé</a>
+        </p>
+      {% endfor %} 
+    </div>
+ {% endblock %}              

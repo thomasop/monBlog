@@ -1,0 +1,32 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Administration' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    <header>
+        <ul class="navbar navbar-dark bg-primary"> 
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="/blog/admin/{{ user.id }}">Administrateur</a></li>
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="/blog/postsmanager/{{ user.id }}">Posts</a></li>
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="/blog/logout">Déconnexion</a></li>
+        </ul>  
+    </header>  
+    <div class="createformpost" style="margin-top: 100px;">
+        <p> 
+        Salut {{ _session.pseudo }}, on est le {{ "now"|date("m/d/Y") }}
+        </p>
+        <p> 
+        Vous avez accès a la parti administrateur.
+        </p>
+        <p>Ici vous pouvez gérer les administrateur, les valider, ou les supprimer.<a href="/blog/admin/{{ user.id }}">ici</a></p>
+        <p>Et également gérer les posts, en creer , les modifier, ou les supprimer.<a href="/blog/postsmanager/{{ user.id }}">ici</a></p></p>
+        <p>Et les commentaires, a validé , a modifier, ou a supprimer.</p>
+    </div>
+{% endblock %} 
+
