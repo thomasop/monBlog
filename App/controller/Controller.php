@@ -22,13 +22,11 @@ class controller
         $this->twig->addGlobal('_get', $_GET);
         $php_session = new PHPSession();
         $this->twig->addGlobal('_flash', $php_session);
-        
     }
     
     public function getTwig()
     {
         return $this->twig;
-    }
-    
+    } 
 }
 

@@ -41,7 +41,7 @@ class ControllerUser extends Controller
         }
         else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }
@@ -58,7 +58,7 @@ class ControllerUser extends Controller
             }
         }
         else {
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }
@@ -118,7 +118,7 @@ class ControllerUser extends Controller
             }
         }
         else {
-            $php_session->set('stop', 'Mot de passe incorrect. Une lettre en majuscule, minuscule, un chiffre et caractère speciaux attendu ainsi que 10 caractères.');
+            $php_session->set('stop', 'Mot de passe incorrect. Une lettre en majuscule, minuscule, un chiffre et un caractère special attendu ainsi que 10 caractères.');
             $php_session->redirect('/blog/registration');
         }
     }
@@ -141,7 +141,7 @@ class ControllerUser extends Controller
             $php_session->redirect('/blog/admin/', $_SESSION['id']);
         } else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }

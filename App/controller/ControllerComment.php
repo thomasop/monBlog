@@ -19,7 +19,7 @@ class ControllerComment extends Controller
         $affectedLines = $commentManager->createComment($postId, $author, $comment);
         
             if ($affectedLines === false) {
-                throw new MonException('Impossible d\'ajouter le commentaire !');
+                throw new Exception('Impossible d\'ajouter le commentaire !');
             } elseif (!empty($_POST)) {
                 $php_session = new PHPSession();
                 $php_session->set('succes', 'Commentaire ajouté, un administrateur le validera.');
@@ -39,7 +39,7 @@ class ControllerComment extends Controller
         }
         else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     } 
@@ -55,7 +55,7 @@ class ControllerComment extends Controller
         }
         else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }
@@ -71,7 +71,7 @@ class ControllerComment extends Controller
         }
         else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }
@@ -86,7 +86,7 @@ class ControllerComment extends Controller
             $php_session->redirect('/blog/postsmanager/', $_SESSION['id']);
         } else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }

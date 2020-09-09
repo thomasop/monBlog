@@ -30,8 +30,6 @@ class ControllerPost extends Controller
         $postsmanager = new PostManager();
         $postsview = $postsmanager->showPosts();
         $postscountview = $postsmanager->countPosts();
-        $parpage = 5;
-        $page = ceil($postscountview / $parpage);
         $twigview = $this->getTwig();
         $twigpostsview = $twigview->load('Frontend/posts.twig');
         echo $twigpostsview->render(array('postsview' => $postsview,
@@ -49,7 +47,7 @@ class ControllerPost extends Controller
         }
         else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }
@@ -65,7 +63,7 @@ class ControllerPost extends Controller
         }
         else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
         
@@ -82,7 +80,7 @@ class ControllerPost extends Controller
         }
         else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }
@@ -99,7 +97,7 @@ class ControllerPost extends Controller
         }
         else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }
@@ -118,6 +116,10 @@ class ControllerPost extends Controller
                 $php_session->set('succes', 'Post ajouté.');
                 $php_session->redirect('/blog/postsmanager/', $_SESSION['id']);
             }
+        } else {
+            $php_session = new PHPSession();
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
+            $php_session->redirect('/blog/connect');
         }
     }
 
@@ -133,7 +135,7 @@ class ControllerPost extends Controller
         }
         else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }
@@ -151,7 +153,7 @@ class ControllerPost extends Controller
         }
         else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }
@@ -170,7 +172,7 @@ class ControllerPost extends Controller
         }
         else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }      
