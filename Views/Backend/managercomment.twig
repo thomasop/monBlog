@@ -1,6 +1,6 @@
 {% extends "template.twig" %}
 {% block title %}
-{% set title = 'Manager Comment' %} 
+{% set title = 'Manager commentaires' %} 
 {{ title }}
 {% endblock %}
 {% block head %}
@@ -8,28 +8,55 @@
 {% endblock %}
 {% block body %}
     <header>
-        <ul class="navbar navbar-dark bg-primary">  
+        <ul class="navbar navbar-dark bg-primary d-flex justify-content-around">  
             <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="index.php?r=index">Accueil</a></li>
+            <a class="navbar-brand" href="/blog/admin/{{ _session.id }}">Administrateur</a></li>
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="/blog/postsmanager/{{ _session.id }}">Posts</a></li>
             <li class="nav-item list-inline-item">
             <a class="navbar-brand" href="/blog/logout">Deconnection</a></li>
         </ul>    
     </header> 
-    <p><a href="/blog/postsmanager/{{ postsAdminView.id_utilisateur }}">Retour à la liste des billets</a></p>
-    <div class="new">
-        {{ postsAdminView.title }}
-        {{ postsAdminView.content }}
+    <a class="ml-3 mb-3 btn btn-outline-primary" href="/blog/postsmanager/{{ postsAdminView.id_utilisateur }}">Retour à la liste des posts</a>
+    <div class="card">
+        <h3 class="card-header">{{ postsAdminView.title|upper }}</h3>
+        <div class="card-body">
+            <p class="card-text">{{ postsAdminView.content }}</p>    
+        </div>  
     </div>
-    
-    <p>Vous pouvez valider un commentaire ici</p>
-    {% for commentMana in commentsNotvalidView %}
-    <p> {{ commentMana.author }}
-        {{ commentMana.comment }}
-    <a class="btn btn-danger" href="/blog/commentupdatevalid/{{ commentMana.id }}">voulez vous valider ce commentaire?</a>
-    <a class="btn btn-primary" href="/blog/commentupdateform/{{ commentMana.id }}">update</a>
-    <a class="btn btn-danger" href="/blog/commentdelete/{{ commentMana.id }}">delete</a>
-    
-    {% endfor %}
-    </p>
-            
+    <div class="card">
+        <h3 class="card-header">Validez les commentaires ici</h3>
+        {% if commentsNotvalidView %}
+            {% for commentMana in commentsNotvalidView %}
+            <div class="card-body">
+                <p>{{ commentMana.comment }}</p>
+                <p>le {{ commentMana.comment_date }} écrit par
+                {{ commentMana.author }} 
+                    </p>
+                <a class="btn btn-outline-success" href="/blog/commentupdatevalid/{{ commentMana.id }}">Valider ce commentaire ?</a>
+                <a class="btn btn-outline-danger" href="/blog/commentdelete/{{ commentMana.id }}">Supprimer</a>
+            </div>
+            {% endfor %}
+        {% endif %}
+       {% if not commentsNotvalidView %}
+            <p>Aucun commentaire à valider sur ce post.</p>
+        {% endif %}
+    </div>
+    <footer class="text-white bg-primary mt-3 card-group">
+        <div class="card-body">
+            <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
+        </div>
+        <div class="card-body">
+            <div>
+                <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+                <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
+            </div>
+            <div>
+                <a class="text-success" href="Public/CVtype.pdf.zip">Mon CV est disponible ici!</a>
+            </div>
+        </div> 
+        <div class="card-body">     
+        <a class="text-success" href="/blog/logout">Déconnexion</a>
+        </div>
+    </footer>        
 {% endblock %}

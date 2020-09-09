@@ -1,6 +1,6 @@
 {% extends "template.twig" %}
 {% block title %}
-{% set title = 'Administrateur Valid' %} 
+{% set title = 'Administrateur valide' %} 
 {{ title }}
 {% endblock %}
 {% block head %}
@@ -13,35 +13,52 @@
         </div>
     {% endif %}
     <header>
-        <ul class="navbar navbar-dark bg-primary"> 
+        <ul class="navbar navbar-dark bg-primary d-flex justify-content-around"> 
             <li class="nav-item list-inline-item">
-            <a class="navbar-brand" href="/blog/admin/{{ _session.id }}">admin</a></li>
+            <a class="navbar-brand" href="/blog/admin/{{ _session.id }}">Adminnistrateur</a></li>
             <li class="nav-item list-inline-item">
             <a class="navbar-brand" href="/blog/postsmanager/{{ _session.id }}">Post</a></li>
             <li class="nav-item list-inline-item">
             <a class="navbar-brand" href="/blog/logout">Déconnexion</a></li>
         </ul>   
     </header>
-    {% if loginvalid %}
-        <p>Administrateur a validé</p>
-        <div>
-            {% for admin in loginvalid %}
-                <p>{{ admin.id }}
-            {{ admin.pseudo }}
-            Voulez vous valider cet administrateur?
-            <form action="/blog/adminvalid/{{ admin.id }}" method="POST">
-                <button type="submit" name="yes">oui</button>
-                </form>
-                <a class="" href="/blog/admindelete/{{ admin.id }}">Ou le supprimer?</a>
-                </p>
-            
-            {% endfor %}
+    <div class="m">
+        {% if loginvalid %}
+            <p class="card card-header" >Administrateur à valider:</p>
+            <div>
+                {% for admin in loginvalid %}
+                    <p>{{ admin.id }}
+                {{ admin.pseudo }}
+                Voulez vous valider cet administrateur?
+                    <a class="btn btn-primary" href="/blog/adminvalid/{{ admin.id }}">oui?</a>
+                    <a class="btn btn-danger" href="/blog/admindelete/{{ admin.id }}">Ou le supprimer?</a>
+                    </p>
+                
+                {% endfor %}
+                </div>
+        {% endif %}
+        <p class="card card-header" >Tous les administrateurs:</p>
+        {% for adminvalid in loginvalidadmin %} 
+            <p>{{ adminvalid.id }}
+            {{ adminvalid.pseudo }}
+            <a class="" href="/blog/admindelete/{{ adminvalid.id }}">Supprimez?</a>
+        {% endfor %}
+    </div>
+    <footer class="text-white bg-primary mt-3 card-group">
+        <div class="card-body">
+            <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
+        </div>
+        <div class="card-body">
+            <div>
+                <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+                <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
             </div>
-    {% endif %}
-    <p>Tous les administrateurs:</p>
-    {% for adminvalid in loginvalidadmin %} 
-        <p>{{ adminvalid.id }}
-        {{ adminvalid.pseudo }}
-        <a class="" href="/blog/admindelete/{{ admin.id }}">Supprimer?</a>
-    {% endfor %}
+            <div>
+                <a class="text-success" href="Public/CVtype.pdf.zip">Mon CV est disponible ici!</a>
+            </div>
+        </div> 
+        <div class="card-body">     
+            <a class="text-success" href="/blog/logout">Déconnexion</a>
+        </div>
+    </footer>
 {% endblock %} 

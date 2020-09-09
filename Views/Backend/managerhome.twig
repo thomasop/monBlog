@@ -8,7 +8,7 @@
 {% endblock %}
 {% block body %}
     <header>
-        <ul class="navbar navbar-dark bg-primary"> 
+        <ul class="navbar navbar-dark bg-primary d-flex justify-content-around"> 
             <li class="nav-item list-inline-item">
             <a class="navbar-brand" href="/blog/admin/{{ user.id }}">Administrateur</a></li>
             <li class="nav-item list-inline-item">
@@ -17,16 +17,34 @@
             <a class="navbar-brand" href="/blog/logout">Déconnexion</a></li>
         </ul>  
     </header>  
-    <div class="createformpost" style="margin-top: 100px;">
-        <p> 
+    <div class="ml-5 " style="margin-top: 120px; margin-bottom: 150px;">
+        <p class="mb-5"> 
         Salut {{ _session.pseudo }}, on est le {{ "now"|date("m/d/Y") }}
         </p>
-        <p> 
+        <p class="mb-5"> 
         Vous avez accès a la parti administrateur.
         </p>
-        <p>Ici vous pouvez gérer les administrateur, les valider, ou les supprimer.<a href="/blog/admin/{{ user.id }}">ici</a></p>
-        <p>Et également gérer les posts, en creer , les modifier, ou les supprimer.<a href="/blog/postsmanager/{{ user.id }}">ici</a></p></p>
-        <p>Et les commentaires, a validé , a modifier, ou a supprimer.</p>
+        <p class="mb-5">Vous pouvez gérer les administrateur, les valider, ou les supprimer.<a href="/blog/admin/{{ user.id }}">ici</a></p>
+        <p class="mb-5">Et également gérer les posts, en créer , les modifier, ou les supprimer.<a href="/blog/postsmanager/{{ user.id }}">ici</a></p></p>
+        <p class="mb-5">Et les commentaires, à valider , à modifier, ou à supprimer.</p>
     </div>
+    <footer class="text-white bg-primary mt-3 card-group">
+        <div class="card-body">
+            <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
+        </div>
+        <div class="card-body">
+            <div>
+                <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+                <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
+            </div>
+            <div>
+                <a class="text-success" href="Public/CVtype.pdf.zip">Mon CV est disponible ici!</a>
+            </div>
+        </div> 
+        <div class="card-body">     
+            <a class="text-success" href="/blog/logout">Déconnexion</a>
+        </div>
+    </footer>
 {% endblock %} 
+
 

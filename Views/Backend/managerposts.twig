@@ -1,6 +1,6 @@
 {% extends "template.twig" %}
 {% block title %}
-{% set title = 'Manager Post' %} 
+{% set title = 'Manager Posts' %} 
 {{ title }}
 {% endblock %}
 {% block head %}
@@ -13,28 +13,46 @@
         </div>
     {% endif %}
     <header>
-        <ul class="navbar navbar-dark bg-primary">
-        <li class="nav-item list-inline-item"> 
-          <a class="navbar-brand" href="/blog/admin/{{ _session.id }}">Admin</a></li>
+        <ul class="navbar navbar-dark bg-primary d-flex justify-content-around">
+          <li class="nav-item list-inline-item"> 
+          <a class="navbar-brand" href="/blog/admin/{{ _session.id }}">Administrateur</a></li>
             <li class="nav-item list-inline-item">
             <a class="navbar-brand" href="/blog/postsmanager/{{ _session.id }}">Posts</a></li>
             <li class="nav-item list-inline-item">
             <a class="navbar-brand" href="/blog/logout">Déconnexion</a></li>
         </ul>     
     </header>
-    <div style="margin-top: 100px; margin-left: 50px;">
-        <h3>Dernier billet du blog</h3>
-        <a class="btn btn-primary" href="/blog/postcreate/{{ _session.id }}">Create</a>
-        {% for post in postsadminview %}    
-        <p>
-        {{ post.title |upper}} : 
-        chapo :{{ post.chapo }}
-        contenue :{{ post.content }}
-        <a class="btn btn-danger" href="/blog/commentmanager/{{ post.id }} ">commentaires</a>
-        <a class="btn btn-primary" href="/blog/postform/{{ post.id }}">Update</a>
-              <a class="btn btn-danger" href="/blog/postdelete/{{ post.id }}">Delete</a>
-          <a class="btn btn-primary" href="/blog/postmanager/{{ post.id }}">Commentaires a validé</a>
-        </p>
+    <div >
+        <h3 class="card card-header">Derniers posts du blog</h3>
+        <a class="my-3 ml-3 btn btn-outline-primary" href="/blog/postcreate/{{ _session.id }}">Create</a>
+        {% for post in postsadminview %}
+        <div class="card-body border border-primary" >  
+          <h5 class="card-title">{{ post.title |upper}} </h5> 
+          <p class="card-text">Chapo : {{ post.chapo }}....</p>
+          <p class="card-text">Contenue : {{ post.content }}</p>
+          <p>Derniere modification : {{ post.date_modif }}</p>
+          <a class="btn btn-outline-success" href="/blog/commentmanager/{{ post.id }} ">Commentaires validé</a>
+          <a class="btn btn-outline-primary" href="/blog/postform/{{ post.id }}">Modifiez</a>
+                <a class="btn btn-outline-danger" href="/blog/postdelete/{{ post.id }}">Supprimez</a>
+            <a class="btn btn-outline-success" href="/blog/postmanager/{{ post.id }}">Commentaires à valider</a>
+        </div>
       {% endfor %} 
     </div>
- {% endblock %}              
+    <footer class="text-white bg-primary mt-3 card-group">
+    <div class="card-body">
+        <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
+    </div>
+    <div class="card-body">
+        <div>
+            <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+            <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
+        </div>
+        <div>
+            <a class="text-success" href="Public/CVtype.pdf.zip">Mon CV est disponible ici!</a>
+        </div>
+    </div> 
+    <div class="card-body">     
+      <a class="text-success" href="/blog/logout">Déconnexion</a>
+    </div>
+  </footer>
+ {% endblock %}   
