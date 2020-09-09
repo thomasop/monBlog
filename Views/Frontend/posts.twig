@@ -7,8 +7,9 @@
     {{ parent() }}
 {% endblock %}
 {% block body %}
+{{ currentpage }}
 <header>
-    <ul class="navbar navbar-dark bg-primary">  
+    <ul class="navbar navbar-dark bg-primary d-flex justify-content-around">  
         <li class="nav-item list-inline-item">
         <a class="navbar-brand" href="/blog/">Accueil</a></li>
         <li class="nav-item list-inline-item">
@@ -16,9 +17,9 @@
     </ul>
 </header>         
 <div class="card" >
-    <h3 class="card-header">Dernier billet du blog</h3>
+    <h3 class="card-header">Derniers posts du blog</h3>
     {% for post in postsview %}
-    <div class="card-body" > 
+    <div class="card-body border border-primary" > 
         <h5 class="card-title">{{ post.title |upper}} </h5>
         <p class="card-text">{{ post.chapo }}....</p>
         <p>Derniere modification : {{ post.date_modif }}</p>
@@ -26,9 +27,9 @@
     </div>         
     {% endfor %} 
 </div>
-<footer class="text-white bg-primary mb-3 card-group">
+<footer class="text-white bg-primary mt-3 card-group">
     <div class="card-body">
-        <p>Bienvenue sur mon blog professionel, vous pouvez visiter nos posts <a class="text-danger" href="/blog/posts">ici</a></p>
+        <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
     </div>
     <div class="card-body">
         <div>
@@ -36,11 +37,11 @@
             <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
         </div>
         <div>
-            <a class="text-danger" href="Public/CVtype.png">Mon CV est disponible ici!</a>
+            <a class="text-success" href="Public/CVtype.pdf.zip">Mon CV est disponible ici!</a>
         </div>
     </div> 
     <div class="card-body">     
-    <a class="text-danger" href="/blog/connect">Connexion</a>
+    <a class="text-success" href="/blog/connect">Connexion</a>
     </div>
 </footer>
 {% endblock %}
