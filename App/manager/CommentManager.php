@@ -10,7 +10,7 @@ class CommentManager extends Manager
     public function showComments($postId)
     {
         $bd = $this->connection();
-        $bdcommentsvalid = $bd->prepare('SELECT id, author, comment, comment_date FROM comments WHERE post_id = ? AND valid = 1 ORDER BY id DESC');
+        $bdcommentsvalid = $bd->prepare('SELECT id, author, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y %Hh%imin\') AS comment_date FROM comments WHERE post_id = ? AND valid = 1 ORDER BY id DESC');
         $bdcommentsvalid->execute(array($postId));
         $commentsvalid = [];
         while (($raw = $bdcommentsvalid->fetch(PDO::FETCH_ASSOC)) !== false) {
@@ -18,7 +18,7 @@ class CommentManager extends Manager
                 'id'=>$raw['id'],
                 'author'=>$raw['author'],
                 'comment'=>$raw['comment'],
-                'comment_date'=>$raw['comment_date'],
+                'comment_date'=>$raw['comment_date']
             ]);
 
             $commentsvalid[] = $commentvalid;
@@ -28,7 +28,7 @@ class CommentManager extends Manager
     public function showComment($id)
     {
         $bd = $this->connection();
-        $bdcomment = $bd->prepare('SELECT id, author, comment FROM comments WHERE id = ? AND valid IS NULL');
+        $bdcomment = $bd->prepare('SELECT id, post_id, author, comment FROM comments WHERE id = ? AND valid = 1');
         $bdcomment->execute(array($id));
         $comment = $bdcomment->fetch();
         return $comment;
@@ -37,7 +37,7 @@ class CommentManager extends Manager
     public function showCommentsNotValid($postId)
     {
         $bd = $this->connection();
-        $bdcomments = $bd->prepare('SELECT id, author, comment, comment_date FROM comments WHERE post_id = ? AND valid IS NULL ORDER BY id DESC');
+        $bdcomments = $bd->prepare('SELECT id, author, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y %Hh%imin\') AS comment_date FROM comments WHERE post_id = ? AND valid IS NULL ORDER BY id DESC');
         $bdcomments->execute(array($postId));
         $comments = [];
         while (($rew = $bdcomments->fetch(PDO::FETCH_ASSOC)) !== false) {
@@ -45,7 +45,7 @@ class CommentManager extends Manager
                 'id'=>$rew['id'],
                 'author'=>$rew['author'],
                 'comment'=>$rew['comment'],
-                'comment_date'=>$rew['comment_date'],
+                'comment_date'=>$rew['comment_date']
             ]);
 
             $comments[] = $comment;
