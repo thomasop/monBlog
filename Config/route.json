@@ -41,7 +41,7 @@
 	"param" : []
 },
 {
-	"path" : "/blog/admin",
+	"path" : "/blog/admin/[0-9]+",
 	"controller" : "ControllerUser",
 	"action" : "adminShows",
 	"method" : "GET",
@@ -87,7 +87,7 @@
 	"controller" : "ControllerPost",
 	"action" : "postUpdate",
 	"method" : "POST",
-	"param" : ["title", "content"]
+	"param" : ["title", "chapo","content"]
 },
 {
 	"path" : "/blog/postdelete/[0-9]+",
@@ -116,7 +116,7 @@
 	"controller" : "ControllerPost",
 	"action" : "postAdd",
 	"method" : "POST",
-	"param" : ["utilisateurId", "title", "content"]
+	"param" : ["utilisateurId", "title", "chapo", "content"]
 },
 {
 	"path" : "/blog/commentupdatevalid/[0-9]+",
@@ -150,6 +150,20 @@
 	"path" : "/blog/adminvalid/[0-9]+",
 	"controller" : "ControllerUser",
 	"action" : "adminUpdateValid",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/logout",
+	"controller" : "ControllerUser",
+	"action" : "logout",
+	"method" : "GET",
+	"param" : []
+},
+{
+	"path" : "/blog/admindelete/[0-9]+",
+	"controller" : "ControllerUser",
+	"action" : "adminDelete",
 	"method" : "GET",
 	"param" : []
 }
