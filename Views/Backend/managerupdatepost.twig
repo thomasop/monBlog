@@ -1,0 +1,59 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Modifiez post' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    <header>
+        <ul class="navbar navbar-dark bg-primary d-flex justify-content-around"> 
+             <li class="nav-item list-inline-item"> 
+            <a class="navbar-brand" href="/blog/admin/{{ postformview.id_utilisateur }}">Administrateur</a></li> 
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="/blog/postsmanager/{{ postformview.id_utilisateur }}">Posts</a></li>
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="/blog/logout">Déconnexion</a></li>
+        </ul>
+    </header>
+    <a class="ml-3 mb-3 btn btn-outline-primary" href="/blog/postsmanager/{{ postformview.id_utilisateur }}">Retour à la liste des posts</a>
+    <p class="card card-header">Modifiez un post:</p>
+    <div class="mx-4 my-3 px-4 py-4 border border-primary">
+        <form action="/blog/postupdate/{{ postformview.id }}  " method="post"  >
+            <div class="form-group">
+                <label for="title">Titre</label><br />
+                <input class="form-control" type="text" id="author" name="title" value=" {{ postformview.title }} "/>
+            </div>
+            <div class="form-group">
+                <label for="chapo">Chapo</label><br />
+                <input class="form-control" type="text"  name="chapo" required
+                    minlength="4" maxlength="100" value=" {{ postformview.chapo }} "/>
+            </div>
+            <div class="form-group">
+                <label for="content">Contenu</label><br />
+                <textarea id="mytextarea" name="content" class="form-control" >{{ postformview.content }}</textarea>
+            </div>
+            <div>
+                <input type="submit" value="Modifiez" class="btn btn-primary "/>
+            </div>
+        </form>
+    </div>
+    <footer class="text-white bg-primary mt-5 card-group">
+        <div class="card-body">
+            <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
+        </div>
+        <div class="card-body">
+            <div>
+                <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+                <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
+            </div>
+            <div>
+                <a class="text-success" href="Public/CVtype.pdf.zip">Mon CV est disponible ici!</a>
+            </div>
+        </div> 
+        <div class="card-body">     
+            <a class="text-success" href="/blog/logout">Déconnexion</a>
+        </div>
+    </footer>
+{% endblock %} 

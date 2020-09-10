@@ -1,0 +1,54 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Modifiez commentaire' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    <header>
+        <ul class="navbar navbar-dark bg-primary d-flex justify-content-around" >  
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="/blog/admin/{{ _session.id }}">Administrateur</a></li>
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="/blog/postsmanager/{{ _session.id }}">Posts</a></li>
+            <li class="nav-item list-inline-item">
+            <a class="navbar-brand" href="/blog/logout">Deconnection</a></li>
+        </ul>
+    </header>
+    <p><a class="ml-3 mb-1 btn btn-outline-primary" href="/blog/commentmanager/{{ formCommentViews.post_id }}">Retour au post</a></p>
+    <h3 class="card-header">Modifier les commentaires ici</h3>
+    <div class="mx-4 my-3 px-4 py-4 border border-primary">
+        <form action="/blog/commentupdate/{{ formCommentViews.id }} "method="POST">
+            <div class="form-group">
+                <label for="title">Title :</label><br />
+                <input class="form-control" type="text" id="author" name="author" value=" {{ formCommentViews.author }} "/>
+            </div>
+            <div class="form-group">
+                <label for="content">Content :</label><br />
+                <textarea id="mytextarea" name="comment" class="form-control">{{ formCommentViews.comment }}</textarea>
+            </div>
+            <div>
+                <input type="submit" value="Modifiez" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <footer class="text-white bg-primary mt-3 card-group">
+        <div class="card-body">
+            <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
+        </div>
+        <div class="card-body">
+            <div>
+                <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+                <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
+            </div>
+            <div>
+                <a class="text-success" href="Public/CVtype.pdf.zip">Mon CV est disponible ici!</a>
+            </div>
+        </div> 
+        <div class="card-body">     
+        <a class="text-success" href="/blog/logout">Déconnexion</a>
+        </div>
+    </footer>
+{% endblock %}
