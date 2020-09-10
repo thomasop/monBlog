@@ -1,87 +1,85 @@
 <?php
+
 namespace App\entity;
+
 class Comment
 {
-  private $_id;
-  private $author;
-  private $comment;
-  private $post_id;
+    private $id;
+    private $author;
+    private $comment;
+    private $post_id;
+    private $comment_date;
   
-
-
-public function __construct($donnees) {
-    if(is_array($donnees))
+    public function __construct($donnees)
     {
-        $this->hydrate($donnees);
-    }
-}
-
-  
-public function hydrate(array $donnees) {
-    
-    foreach ($donnees as $key => $value) {
-        
-        $method = 'set'.ucfirst($key);
-        if (method_exists($this, $method)) {
-            $this->$method($value);
+        if (is_array($donnees)) {
+            $this->hydrate($donnees);
         }
     }
-}
-  // Liste des getters
-  public function id()
-  {
-    return $this->_id;
-  }
-  
-  public function author()
-  {
-    return $this->_author;
-  }
-  
-  public function comment()
-  {
-    return $this->_comment;
-  }
-  public function post_id(){
-      return $this->_post_id;
-  }
- 
-  
-  
-  
-  // Liste des setters
-  public function setId($id)
-  {
-   $this->_id = $id;
-    
-  }
 
-  public function setauthor($author)
-  {
-    
-    if (is_string($author) && $author < 50)
+    public function hydrate(array $donnees)
     {
-      
-      $this->_author = $author;
+        foreach ($donnees as $key => $value) {
+            $method = 'set'.ucfirst($key);
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
+        }
     }
-  }
+
+    public function id()
+    {
+        return $this->id;
+    }
   
-  public function setcomment($comment)
-  {
-    
-    if (is_string($comment))
+    public function author()
     {
-      $this->_comment = $comment;
+        return $this->author;
     }
- }
-  public function setpostId($post_id)
-  {
     
-    if (is_int($post_id))
+    public function comment()
     {
-      $this->_post_id = $post_id;
+        return $this->comment;
     }
-  }
+
+    public function post_id(){
+        return $this->post_id;
+    }
+
+    public function comment_date()
+    {
+        return $this->comment_date;
+    }
   
+    public function setId($id)
+    {
+        $this->id = $id; 
+    }
+
+    public function setAuthor($author)
+    {
+        if (is_string($author) && $author < 50) {
+            $this->author = $author;
+        }
+    }
+    
+    public function setComment($comment)
+    {
+        if (is_string($comment)) {
+            $this->comment = $comment;
+        }
+    }
+
+    public function setPostid($post_id)
+    {
+        if (is_int($post_id)) {
+            $this->post_id = $post_id;
+        }
+    }
+
+    public function setComment_date($comment_date)
+    {
+        $this->comment_date = $comment_date;
+    }
 }
  
