@@ -41,7 +41,7 @@ class ControllerUser extends Controller
         }
         else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }
@@ -50,15 +50,15 @@ class ControllerUser extends Controller
     {
         $php_session = new PHPSession();
         if (isset($_SESSION['pseudo'])) {
-            if (!empty($_POST)){
+            if ( !empty($_POST) && isset($_GET['id']) && !empty($_GET['id'])){
                 $adminmanager = new AdminManager();
                 $validAdminView = $adminmanager->updateAdminValid($_GET['id']);
                 $php_session->set('succes', 'Adminnistrateur validé.');
-                $php_session->redirect('/blog/admin');
+                $php_session->redirect('/blog/admin/', $_SESSION['id']);
             }
         }
         else {
-            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }
@@ -69,7 +69,7 @@ class ControllerUser extends Controller
         $login = $loginmanager->adminOk($pseudo, $motdepasse);
         $user = $login->fetch(PDO::FETCH_OBJ);
         $php_session = new PHPSession();
-        if (!empty($_POST)) {
+        if (!empty($_POST['motdepasse']) && !empty($_POST['pseudo'])) {
             if (!$user) { 
                 $php_session->set('stop', 'Pseudo ou mot de passe incorrect.');
                 $php_session->redirect('/blog/connect');
@@ -82,8 +82,8 @@ class ControllerUser extends Controller
                     $_SESSION['pseudo'] = $_POST['pseudo'];
                     $_SESSION['motdepasse'] = $_POST['motdepasse'];
                     $_SESSION['id'] = $user->id;
-                    if(isset($_COOKIE['ticket']) && isset($_SESSION['ticket'])) {
-                        if($_COOKIE['ticket'] == $_SESSION['ticket'] && $_POST['token'] == $_SESSION['token']) {
+                    if(isset($_COOKIE['grslo']) && isset($_SESSION['gruhto'])) {
+                        if($_COOKIE['grslo'] == $_SESSION['gruhto'] && $_POST['token'] == $_SESSION['token']) {
                             $twigview = $this->getTwig();
                             $twigconnect = $twigview->load('Backend/managerhome.twig');
                             echo $twigconnect->render(array('user' => $user));
@@ -102,6 +102,7 @@ class ControllerUser extends Controller
             }
         }  
     }
+
     function register($pseudo, $motdepasse)
     {
         $php_session = new PHPSession();
@@ -118,30 +119,35 @@ class ControllerUser extends Controller
             }
         }
         else {
-            $php_session->set('stop', 'Mot de passe incorrect. Une lettre en majuscule, minuscule, un chiffre et un caractère special attendu ainsi que 10 caractères.');
+            $php_session->set('stop', 'Mot de passe incorrect. Une lettre en majuscule, minuscule, un chiffre et caractère speciaux attendu ainsi que 10 caractères.');
             $php_session->redirect('/blog/registration');
         }
     }
     
     function logout()
     {
-        session_unset();
-        session_destroy();
-        $php_session = new PHPSession();
-        $php_session->set('stop', 'Déconnexion.');
-        $php_session->redirect('/blog/connect');
+        if(session_status() == PHP_SESSION_ACTIVE)
+        {
+            session_unset();
+            session_destroy();
+            $php_session = new PHPSession();
+            $php_session->set('stop', 'Déconnexion.');
+            $php_session->redirect('/blog/connect');
+        }
     }
 
     function adminDelete(){
         $php_session = new PHPSession();
         if (isset($_SESSION['pseudo'])) {
-            $registerManager = new adminManager();
-            $register = $registerManager->deleteUser($_GET['id']);
-            $php_session->set('succes', 'Admin supprimé.');
-            $php_session->redirect('/blog/admin/', $_SESSION['id']);
+            if ( isset($_GET['id']) && !empty($_GET['id'])){
+                $registerManager = new adminManager();
+                $register = $registerManager->deleteUser($_GET['id']);
+                $php_session->set('succes', 'Admin supprimé.');
+                $php_session->redirect('/blog/admin/', $_SESSION['id']);
+            }
         } else {
             $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas accès a cette page.');
+            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
             $php_session->redirect('/blog/connect');
         }
     }

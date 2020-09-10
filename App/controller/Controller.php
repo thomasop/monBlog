@@ -18,15 +18,14 @@ class controller
         ]);
         
         $this->twig->addGlobal('_session', $_SESSION);
-        $this->twig->addGlobal('_post', $_POST);
-        $this->twig->addGlobal('_get', $_GET);
         $php_session = new PHPSession();
         $this->twig->addGlobal('_flash', $php_session);
+        
     }
     
     public function getTwig()
     {
         return $this->twig;
-    } 
+    }
+    
 }
-
