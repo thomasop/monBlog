@@ -126,11 +126,14 @@ class ControllerUser extends Controller
     
     function logout()
     {
-        session_unset();
-        session_destroy();
-        $php_session = new PHPSession();
-        $php_session->set('stop', 'Déconnexion.');
-        $php_session->redirect('/blog/connect');
+        if(session_status() == PHP_SESSION_ACTIVE)
+        {
+            session_unset();
+            session_destroy();
+            $php_session = new PHPSession();
+            $php_session->set('stop', 'Déconnexion.');
+            $php_session->redirect('/blog/connect');
+        }
     }
 
     function adminDelete(){

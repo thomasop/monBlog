@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `administrateur`
 --
 
-CREATE TABLE `administrateur` (
+CREATE TABLE "administrateur" (
   `id` int(11) NOT NULL,
   `pseudo` varchar(50) NOT NULL DEFAULT '?',
   `motdepasse` varchar(250) NOT NULL DEFAULT '?',
@@ -39,7 +39,7 @@ CREATE TABLE `administrateur` (
 -- Table structure for table `comments`
 --
 
-CREATE TABLE `comments` (
+CREATE TABLE "comments" (
   `id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
   `author` varchar(150) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE `comments` (
 -- Table structure for table `posts`
 --
 
-CREATE TABLE `posts` (
+CREATE TABLE "posts" (
   `id` int(11) NOT NULL,
   `id_utilisateur` int(11) NOT NULL,
   `title` varchar(150) NOT NULL,
@@ -70,20 +70,20 @@ CREATE TABLE `posts` (
 --
 -- Indexes for table `administrateur`
 --
-ALTER TABLE `administrateur`
+ALTER TABLE "administrateur"
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `comments`
 --
-ALTER TABLE `comments`
+ALTER TABLE "comments"
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_billet` (`post_id`) USING BTREE;
 
 --
 -- Indexes for table `posts`
 --
-ALTER TABLE `posts`
+ALTER TABLE "posts"
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_utilisateur` (`id_utilisateur`) USING BTREE;
 
@@ -94,19 +94,19 @@ ALTER TABLE `posts`
 --
 -- AUTO_INCREMENT for table `administrateur`
 --
-ALTER TABLE `administrateur`
+ALTER TABLE "administrateur"
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `comments`
 --
-ALTER TABLE `comments`
+ALTER TABLE "comments"
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
-ALTER TABLE `posts`
+ALTER TABLE "posts"
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -116,13 +116,13 @@ ALTER TABLE `posts`
 --
 -- Constraints for table `comments`
 --
-ALTER TABLE `comments`
+ALTER TABLE "comments"
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `posts`
 --
-ALTER TABLE `posts`
+ALTER TABLE "posts"
   ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`id_utilisateur`) REFERENCES `administrateur` (`id`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

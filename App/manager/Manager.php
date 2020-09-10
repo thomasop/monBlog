@@ -13,13 +13,8 @@ class Manager
 
     public static function connection()
     { 
-        try {
-            $bd = new PDO(self::DB_HOST, self::DB_USER, self::DB_PASS);
-            $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $bd;
-        }
-        catch(Exeption $errorconnection) {
-            echo 'Connexion échouée' . $errorconnection->getMessage();
-        }
+        $bd = new PDO(self::DB_HOST, self::DB_USER, self::DB_PASS);
+        $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $bd;
     }
 }

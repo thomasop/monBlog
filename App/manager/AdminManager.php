@@ -1,8 +1,6 @@
 <?php
 namespace App\manager;
 
-require_once('App/manager/Manager.php');
-
 use PDO;
 use App\entity\admin;
 
