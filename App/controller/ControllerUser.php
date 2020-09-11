@@ -49,13 +49,11 @@ class ControllerUser extends Controller
     function adminUpdateValid()
     {
         $php_session = new PHPSession();
-        if (isset($_SESSION['pseudo'])) {
-            if ( !empty($_POST) && isset($_GET['id']) && !empty($_GET['id'])){
-                $adminmanager = new AdminManager();
-                $validAdminView = $adminmanager->updateAdminValid($_GET['id']);
-                $php_session->set('succes', 'Adminnistrateur validé.');
-                $php_session->redirect('/blog/admin/', $_SESSION['id']);
-            }
+        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
+            $adminmanager = new AdminManager();
+            $validAdminView = $adminmanager->updateAdminValid($_GET['id']);
+            $php_session->set('succes', 'Adminnistrateur validé.');
+            $php_session->redirect('/blog/admin/', $_SESSION['id']);
         }
         else {
             $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
@@ -81,7 +79,7 @@ class ControllerUser extends Controller
                 if($validPassword && isset($_SESSION['token']) && isset($_POST['token'])) {
                     $_SESSION['pseudo'] = $_POST['pseudo'];
                     $_SESSION['motdepasse'] = $_POST['motdepasse'];
-                    $_SESSION['id'] = $user->id;
+                    $_SESSION['id'] = $user->id_admin;
                     if(isset($_COOKIE['grslo']) && isset($_SESSION['gruhto'])) {
                         if($_COOKIE['grslo'] == $_SESSION['gruhto'] && $_POST['token'] == $_SESSION['token']) {
                             $twigview = $this->getTwig();
@@ -106,21 +104,29 @@ class ControllerUser extends Controller
     function register($pseudo, $motdepasse)
     {
         $php_session = new PHPSession();
-        if (preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{10,}$#', $_POST['motdepasse'])){
-            if ($_POST['motdepasse'] == $_POST['motdepasseconfirmer']) {
-                $motdepasse = password_hash($motdepasse, PASSWORD_DEFAULT);
-                $registerManager = new adminManager();
-                $register = $registerManager->adminInscription($pseudo, $motdepasse);
-                $php_session->set('stop', 'Votre compte a été créé, un administrateur validera votre compte');
-                $php_session->redirect('/blog/connect');
-            } else {
-                $php_session->set('stop', 'Mot de passe different. Les deux meme mot de passe sont attendus.');
-                $php_session->redirect('/blog/registration');
+        if (!empty($_POST['motdepasse']) && !empty($_POST['pseudo']) && !empty($_POST['motdepasseconfirmer'])) {
+            if (preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$#', $_POST['pseudo'])){
+                if (preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{10,}$#', $_POST['motdepasse'])){
+                    if ($_POST['motdepasse'] == $_POST['motdepasseconfirmer']) {
+                        $motdepasse = password_hash($motdepasse, PASSWORD_DEFAULT);
+                        $registerManager = new adminManager();
+                        $register = $registerManager->adminInscription($pseudo, $motdepasse);
+                        $php_session->set('stop', 'Votre compte a été créé, un administrateur validera votre compte');
+                        $php_session->redirect('/blog/connect');
+                    } else {
+                        $php_session->set('stop', 'Mot de passe different. Les deux meme mot de passe sont attendus.');
+                        $php_session->redirect('/blog/registration');
+                    }
+                }
+                else {
+                    $php_session->set('stop', 'Mot de passe incorrect. Une lettre en majuscule, minuscule, un chiffre et caractère speciaux attendu ainsi que 10 caractères minimum.');
+                    $php_session->redirect('/blog/registration');
+                }
             }
-        }
-        else {
-            $php_session->set('stop', 'Mot de passe incorrect. Une lettre en majuscule, minuscule, un chiffre et caractère speciaux attendu ainsi que 10 caractères.');
-            $php_session->redirect('/blog/registration');
+            else {
+                $php_session->set('stop', 'Pseudo incorrect. Une lettre en majuscule, minuscule et un chiffre attendu ainsi que 6 caractères minimum.');
+                $php_session->redirect('/blog/registration');
+            }   
         }
     }
     
@@ -138,13 +144,11 @@ class ControllerUser extends Controller
 
     function adminDelete(){
         $php_session = new PHPSession();
-        if (isset($_SESSION['pseudo'])) {
-            if ( isset($_GET['id']) && !empty($_GET['id'])){
-                $registerManager = new adminManager();
-                $register = $registerManager->deleteUser($_GET['id']);
-                $php_session->set('succes', 'Admin supprimé.');
-                $php_session->redirect('/blog/admin/', $_SESSION['id']);
-            }
+        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
+            $registerManager = new adminManager();
+            $register = $registerManager->deleteUser($_GET['id']);
+            $php_session->set('succes', 'Admin supprimé.');
+            $php_session->redirect('/blog/admin/', $_SESSION['id']);
         } else {
             $php_session = new PHPSession();
             $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');

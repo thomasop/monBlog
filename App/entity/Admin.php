@@ -4,7 +4,7 @@ namespace App\Entity;
 
 class Admin
 {
-    private $id;
+    private $id_admin;
     private $pseudo;
     private $motdepasse;
 
@@ -25,9 +25,9 @@ class Admin
         }
     }
 
-    public function id()
+    public function id_admin()
     {
-        return $this->id;
+        return $this->id_admin;
     }
 
     public function pseudo()
@@ -40,9 +40,9 @@ class Admin
         return $this->motdepasse;
     }
 
-    public function setId($id)
+    public function setId($id_admin)
     {
-        $this->id = $id;
+        $this->id_admin = $id_admin;
     }
 
     public function setPseudo($pseudo)
@@ -59,4 +59,3 @@ class Admin
         }
     }
 }
- 

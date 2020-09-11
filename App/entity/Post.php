@@ -4,7 +4,7 @@ namespace App\entity;
 
 class Post
 {
-    private $id;
+    private $id_post;
     private $title;
     private $chapo;
     private $content;
@@ -28,9 +28,9 @@ class Post
         }
     }
   
-    public function id()
+    public function id_post()
     {
-        return $this->id;
+        return $this->id_post;
     }
 
     public function title()
@@ -52,9 +52,9 @@ class Post
         return $this->date_modif;
     }
  
-    public function setId($id)
+    public function setId($id_post)
     {
-        $this->id = $id;
+        $this->id_post = $id_post;
     }
 
     public function setTitle($title)

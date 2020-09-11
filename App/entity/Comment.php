@@ -4,7 +4,7 @@ namespace App\entity;
 
 class Comment
 {
-    private $id;
+    private $id_comment;
     private $author;
     private $comment;
     private $post_id;
@@ -27,9 +27,9 @@ class Comment
         }
     }
 
-    public function id()
+    public function id_comment()
     {
-        return $this->id;
+        return $this->id_comment;
     }
   
     public function author()
@@ -51,9 +51,9 @@ class Comment
         return $this->comment_date;
     }
   
-    public function setId($id)
+    public function setId($id_comment)
     {
-        $this->id = $id; 
+        $this->id_comment = $id_comment; 
     }
 
     public function setAuthor($author)

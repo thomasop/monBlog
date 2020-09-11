@@ -15,6 +15,7 @@ class Manager
     { 
         $bd = new PDO(self::DB_HOST, self::DB_USER, self::DB_PASS);
         $bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $bd->exec('SET NAMES utf8');
         return $bd;
     }
 }

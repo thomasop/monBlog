@@ -16,11 +16,9 @@ class controller
         $this->twig = new \Twig\Environment($this->loader, [
             'debug' => true,
         ]);
-        
         $this->twig->addGlobal('_session', $_SESSION);
         $php_session = new PHPSession();
         $this->twig->addGlobal('_flash', $php_session);
-        
     }
     
     public function getTwig()
