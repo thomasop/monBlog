@@ -4,9 +4,6 @@ namespace App\controller;
 
 use App\manager\PostManager;
 use App\manager\CommentManager;
-use App\manager\AdminManager;
-use App\tool\PHPSession;
-
 
 class ControllerPost extends Controller
 {
@@ -36,67 +33,53 @@ class ControllerPost extends Controller
 
     function postsManager()
     {
-        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
-            $postsmanager = new PostManager();
-            $postsadminview = $postsmanager->showPostsUser($_GET['id']);
+        if (!isset($_SESSION['pseudo'])) {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
+        } else {
+            $postsadminview = $this->post()->showPostsUser($_GET['id']);
             $twigview = $this->getTwig();
             $twigpostsmanager = $twigview->load('Backend/managerposts.twig');
             echo $twigpostsmanager->render(array('postsadminview' => $postsadminview));
-        }
-        else {
-            $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $php_session->redirect('/blog/connect');
         }
     }
 
     function postFormUpdate()
     {
-        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
-            $postmanager = new PostManager();
-            $postformview = $postmanager->showPost($_GET['id']);
+        if (!isset($_SESSION['pseudo'])) {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
+        } else {
+            $postformview = $this->post()->showPost($_GET['id']);
             $twigview = $this->getTwig();
             $twigpostformupdate = $twigview->load('Backend/managerupdatepost.twig');
             echo $twigpostformupdate->render(array('postformview' => $postformview));
         }
-        else {
-            $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $php_session->redirect('/blog/connect');
-        }
-        
     }
 
     function postUpdate($title, $chapo, $content)
     {
-        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
-            $postmanager = new PostManager();
-            $updatepostview = $postmanager->updatePost($_GET['id'], $title, $chapo, $content);
-            $php_session = new PHPSession();
-            $php_session->set('succes', 'Post modifié.');
-            $php_session->redirect('/blog/postsmanager/', $_SESSION['id']);
+        if (!isset($_SESSION['pseudo'])) {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
         }
         else {
-            $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $php_session->redirect('/blog/connect');
+            $updatepostview = $this->post()->updatePost($_GET['id'], $title, $chapo, $content);
+            $this->phpSession()->set('succes', 'Post modifié.');
+            $this->phpSession()->redirect('/blog/postsmanager/', $_SESSION['id']);
         }
     }
 
     function postCreate()
     {
-        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
-            $postmanager = new PostManager();
-            $adminmanager = new AdminManager();
-            $adminview = $adminmanager->showAdmin($_GET['id']);
+        if (!isset($_SESSION['pseudo'])) {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
+        } else {
+            $adminview = $this->admin()->showAdmin($_GET['id']);
             $twigview = $this->getTwig();
             $twigpostcreate = $twigview->load('Backend/managercreatepost.twig');
             echo $twigpostcreate->render();
-        }
-        else {
-            $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $php_session->redirect('/blog/connect');
         }
     }
 
@@ -104,68 +87,58 @@ class ControllerPost extends Controller
     {
         if (isset($_SESSION['pseudo'])) {
             $postmanager = new PostManager();
-            $adminmanager = new AdminManager();
             $postaddview = $postmanager->createPost($utilisateurId, $title, $chapo, $content);
 
             if ($postaddview === false) {
                 throw new MonException('Impossible d\'ajouter le post !');
             } elseif (!empty($_POST)) {
-                $php_session = new PHPSession();
-                $php_session->set('succes', 'Post ajouté.');
-                $php_session->redirect('/blog/postsmanager/', $_SESSION['id']);
+                $this->phpSession()->set('succes', 'Post ajouté.');
+                $this->phpSession()->redirect('/blog/postsmanager/', $_SESSION['id']);
             }
+        } else {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
         }
     }
 
     function postDelete()
     {
-        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
-            $postmanager = new PostManager();
-            $postdeleteview = $postmanager->deletePost($_GET['id']);
-            $php_session = new PHPSession();
-            $php_session->set('succes', 'Post supprimé.');
-            $php_session->redirect('/blog/postsmanager/', $_SESSION['id']);
-        }
-        else {
-            $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $php_session->redirect('/blog/connect');
+        if (!isset($_SESSION['pseudo'])) {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
+        } else {
+            $postdeleteview = $this->post()->deletePost($_GET['id']);
+            $this->phpSession()->set('succes', 'Post supprimé.');
+            $this->phpSession()->redirect('/blog/postsmanager/', $_SESSION['id']);
         }
     }
 
     function postManager()
     {
-        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
-            $postmanager = new PostManager();
-            $commentmanager = new CommentManager();
-            $postAdminView = $postmanager->showPost($_GET['id']);
-            $commentsNotvalidView = $commentmanager->showCommentsNotValid($_GET['id']);
+        if (!isset($_SESSION['pseudo'])) {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
+        } else {
+            $postAdminView = $this->post()->showPost($_GET['id']);
+            $commentsNotvalidView = $this->comment()->showCommentsNotValid($_GET['id']);
             $twigview = $this->getTwig();
             $twigpostmanager = $twigview->load('Backend/managercomment.twig');
             echo $twigpostmanager->render(array('postsAdminView' => $postAdminView, 'commentsNotvalidView' => $commentsNotvalidView));
-        }
-        else {
-            $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $php_session->redirect('/blog/connect');
         }
     }
 
     function commentManager()
     {
-        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
-            $postmanager = new PostManager();
-            $commentmanager = new CommentManager();
-            $postCommentAdminView = $postmanager->showPost($_GET['id']);
-            $commentView = $commentmanager->showComments($_GET['id']);
+        if (!isset($_SESSION['pseudo'])) {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
+            
+        } else {
+            $postCommentAdminView = $this->post()->showPost($_GET['id']);
+            $commentView = $this->comment()->showComments($_GET['id']);
             $twigview = $this->getTwig();
             $twigcommentmanager = $twigview->load('Backend/managercommentvalid.twig');
-            echo $twigcommentmanager->render(array('postCommentAdminView' => $postCommentAdminView, 'commentView' => $commentView));  
-        }
-        else {
-            $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $php_session->redirect('/blog/connect');
+            echo $twigcommentmanager->render(array('postCommentAdminView' => $postCommentAdminView, 'commentView' => $commentView));
         }
     }      
 }
