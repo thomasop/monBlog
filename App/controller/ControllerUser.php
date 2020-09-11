@@ -62,25 +62,16 @@ class ControllerUser extends Controller
         $user = $login->fetch(PDO::FETCH_OBJ);
         if (!empty($_POST['motdepasse']) && !empty($_POST['pseudo'])) {
             if (!$user) { 
-                $this->phpSession()->set('stop', 'Pseudo ou mot de passe incorrect.');
-                $this->phpSession()->redirect('/blog/connect');
             } else {
                 $mdp = $user->motdepasse;
                 $validPassword = password_verify($_POST['motdepasse'], $mdp);
-            
-                if($validPassword && isset($_SESSION['token']) && isset($_POST['token'])) {
+                if($validPassword && isset($_SESSION['token']) && isset($_POST['token']) && isset($_COOKIE['grslo']) && isset($_SESSION['gruhto']) && $_COOKIE['grslo'] == $_SESSION['gruhto'] && $_POST['token'] == $_SESSION['token']) {
                     $_SESSION['pseudo'] = $_POST['pseudo'];
-                    $_SESSION['motdepasse'] = $_POST['motdepasse'];
                     $_SESSION['id'] = $user->id_admin;
-                    if(isset($_COOKIE['grslo']) && isset($_SESSION['gruhto']) && $_COOKIE['grslo'] == $_SESSION['gruhto'] && $_POST['token'] == $_SESSION['token']) {
-                        $twigview = $this->getTwig();
-                        $twigconnect = $twigview->load('Backend/managerhome.twig');
-                        echo $twigconnect->render(array('user' => $user));
+                    $twigview = $this->getTwig();
+                    $twigconnect = $twigview->load('Backend/managerhome.twig');
+                    echo $twigconnect->render(array('user' => $user));
                     } else {
-                        $this->phpSession()->set('stop', 'Problème d\'authentification.');
-                        $this->phpSession()->redirect('/blog/connect'); 
-                    }
-                } else {
                     $this->phpSession()->set('stop', 'Pseudo ou mot de passe incorrect.');
                     $this->phpSession()->redirect('/blog/connect');
                 }
@@ -90,24 +81,22 @@ class ControllerUser extends Controller
 
     function register($pseudo, $motdepasse)
     {
-        if (!empty($_POST['motdepasse']) && !empty($_POST['pseudo']) && !empty($_POST['motdepasseconfirmer'])) {
+        if (!empty($_POST['motdepasse']) && !empty($_POST['pseudo']) && !empty($_POST['motdepasseconfirmer']) && $_POST['motdepasse'] == $_POST['motdepasseconfirmer']) {
             if (preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}$#', $_POST['pseudo']) && preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{10,}$#', $_POST['motdepasse'])){
-                if ($_POST['motdepasse'] == $_POST['motdepasseconfirmer']) {
-                    $motdepasse = password_hash($motdepasse, PASSWORD_DEFAULT);
-                    $registerManager = new adminManager();
-                    $register = $registerManager->adminInscription($pseudo, $motdepasse);
-                    $this->phpSession()->set('stop', 'Votre compte a été créé, un administrateur validera votre compte');
-                    $this->phpSession()->redirect('/blog/connect');
-                } else {
-                    $this->phpSession()->set('stop', 'Mot de passe different. Les deux meme mot de passe sont attendus.');
-                    $this->phpSession()->redirect('/blog/registration');
-                }
-            }
-            else {
+                $motdepasse = password_hash($motdepasse, PASSWORD_DEFAULT);
+                $registerManager = new adminManager();
+                $register = $registerManager->adminInscription($pseudo, $motdepasse);
+                $this->phpSession()->set('stop', 'Votre compte a été créé, un administrateur validera votre compte');
+                $this->phpSession()->redirect('/blog/connect');
+            } else {
                 $this->phpSession()->set('stop', 'Mot de passe incorrect: Une lettre en majuscule, minuscule, un chiffre et caractère speciaux attendu ainsi que 10 caractères minimum. Ou pseudo incorrect: Une lettre en majuscule, minuscule et un chiffre attendu ainsi que 6 caractères minimum.');
                 $this->phpSession()->redirect('/blog/registration');
-            }   
+            }
         }
+        else {
+            $this->phpSession()->set('stop', 'Mot de passe different. Les deux meme mot de passe sont attendus.');
+            $this->phpSession()->redirect('/blog/registration');
+        }   
     }
     
     function logout()

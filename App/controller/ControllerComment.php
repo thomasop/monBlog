@@ -38,7 +38,7 @@ class ControllerComment extends Controller
 
     function commentUpdate($author, $comment)
     {
-        if (!isset($_SESSION['pseudo'])) {
+        if (!isset($_SESSION['pseudo']) && !isset($_SESSION['id'])) {
             $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
             $this->phpSession()->redirect('/blog/connect');
         }
@@ -51,7 +51,7 @@ class ControllerComment extends Controller
     
     function commentUpdateForm()
     {
-        if (!isset($_SESSION['pseudo'])) {
+        if (!isset($_SESSION['pseudo']) && !isset($_SESSION['id'])) {
             $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
             $this->phpSession()->redirect('/blog/connect');
         }
@@ -65,7 +65,7 @@ class ControllerComment extends Controller
 
     function commentUpdateValid()
     {
-        if (!isset($_SESSION['pseudo']) && !isset($_SESSION['id'])) {
+        if (!isset($_SESSION['pseudo'])) {
             $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
             $this->phpSession()->redirect('/blog/connect');
         } else {

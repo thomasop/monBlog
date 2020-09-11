@@ -11,9 +11,11 @@ class HttpRequest
 		
     public function __construct($url = null, $method = null)
     {
-	    $this->_url = ($url === null) ? $_SERVER['REQUEST_URI'] : $url;
-		$this->_method = ($method === null) ? $_SERVER['REQUEST_METHOD'] : $method;
-		$this->_param = array();
+		
+			$this->_url = ($url === null) ? $_SERVER['REQUEST_URI'] : $url;
+			$this->_method = ($method === null) ? $_SERVER['REQUEST_METHOD'] : $method;
+			$this->_param = array();
+		
     }
 		
     public function getUrl()
@@ -40,11 +42,6 @@ class HttpRequest
 	{
 		switch ($this->_method) {
 			case "GET":
-				foreach ($this->_road->getParam() as $param) {
-					if (isset($param)) {
-						$this->_param[] = $param;
-					}
-				}
 			case "POST":
 				foreach ($this->_road->getParam() as $param) {
 					if (isset($_POST[$param])) {
@@ -53,7 +50,6 @@ class HttpRequest
 				}
 		}
 	}
-
 	public function getRoad()
 	{
 		return $this->_road;	
