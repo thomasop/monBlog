@@ -59,27 +59,30 @@ class ControllerPost extends Controller
 
     function postUpdate($title, $chapo, $content)
     {
-        if (!isset($_SESSION['pseudo'])) {
-            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $this->phpSession()->redirect('/blog/connect');
-        }
-        else {
-            $updatepostview = $this->post()->updatePost($_GET['id'], $title, $chapo, $content);
+        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
+            $postupdatemanager = new PostManager();
+            $updatepostview = $postupdatemanager->updatePost($_GET['id'], $title, $chapo, $content);
             $this->phpSession()->set('succes', 'Post modifié.');
             $this->phpSession()->redirect('/blog/postsmanager/', $_SESSION['id']);
+        }
+        else {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
         }
     }
 
     function postCreate()
     {
-        if (!isset($_SESSION['pseudo'])) {
-            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $this->phpSession()->redirect('/blog/connect');
-        } else {
-            $adminview = $this->admin()->showAdmin($_GET['id']);
+        if (isset($_SESSION['pseudo'])) {
+            $postcreate = new PostManager();
+            $adminview = $postcreate->showAdmin($_GET['id']);
             $twigview = $this->getTwig();
             $twigpostcreate = $twigview->load('Backend/managercreatepost.twig');
             echo $twigpostcreate->render();
+        } else {
+           
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
         }
     }
 
@@ -140,5 +143,4 @@ class ControllerPost extends Controller
             $twigcommentmanager = $twigview->load('Backend/managercommentvalid.twig');
             echo $twigcommentmanager->render(array('postCommentAdminView' => $postCommentAdminView, 'commentView' => $commentView));
         }
-    }      
-}
+    }  

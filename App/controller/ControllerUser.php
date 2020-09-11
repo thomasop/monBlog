@@ -65,18 +65,21 @@ class ControllerUser extends Controller
             } else {
                 $mdp = $user->motdepasse;
                 $validPassword = password_verify($_POST['motdepasse'], $mdp);
-                if($validPassword && isset($_SESSION['token']) && isset($_POST['token']) && isset($_COOKIE['grslo']) && isset($_SESSION['gruhto']) && $_COOKIE['grslo'] == $_SESSION['gruhto'] && $_POST['token'] == $_SESSION['token']) {
-                    $_SESSION['pseudo'] = $_POST['pseudo'];
-                    $_SESSION['id'] = $user->id_admin;
-                    $twigview = $this->getTwig();
-                    $twigconnect = $twigview->load('Backend/managerhome.twig');
-                    echo $twigconnect->render(array('user' => $user));
-                    } else {
+                if ($validPassword && isset($_SESSION['token']) && isset($_POST['token']) && isset($_COOKIE['grslo']) && isset($_SESSION['gruhto'])){
+                    if ($_COOKIE['grslo'] == $_SESSION['gruhto'] && $_POST['token'] == $_SESSION['token']) {
+                        $_SESSION['pseudo'] = $_POST['pseudo'];
+                        $_SESSION['motdepasse'] = $_POST['motdepasse'];
+                        $_SESSION['id'] = $user->id_admin;
+                        $twigview = $this->getTwig();
+                        $twigconnect = $twigview->load('Backend/managerhome.twig');
+                        echo $twigconnect->render(array('user' => $user));
+                    }
+                } else {
                     $this->phpSession()->set('stop', 'Pseudo ou mot de passe incorrect.');
                     $this->phpSession()->redirect('/blog/connect');
                 }
-            }
-        }  
+            }  
+        }
     }
 
     function register($pseudo, $motdepasse)
