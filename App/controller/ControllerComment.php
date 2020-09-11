@@ -43,48 +43,40 @@ class ControllerComment extends Controller
 
     function commentUpdate($author, $comment)
     {
-        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
-            $commentUpdateController = new CommentManager();
-            $commentUpdateView = $commentUpdateController->updateComment($_GET['id'], $author, $comment);
-            $php_session = new PHPSession();
-            $php_session->set('succes', 'Commentaire modifié.');
-            $php_session->redirect('/blog/postsmanager/', $_SESSION['id']);
+        if (!isset($_SESSION['pseudo'])) {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
         }
         else {
-            $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $php_session->redirect('/blog/connect');
+            $this->comment()->updateComment($_GET['id'], $author, $comment);
+            $this->phpSession()->set('succes', 'Commentaire modifié.');
+            $this->phpSession()->redirect('/blog/postsmanager/', $_SESSION['id']);
         }
     }
     
     function commentUpdateForm()
     {
-        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
-            $formcommentupdate = new CommentManager();
-            $formCommentViews = $formcommentupdate->showComment($_GET['id']);
+        if (!isset($_SESSION['pseudo'])) {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
+        }
+        else {
+            $formCommentViews = $this->comment()->showComment($_GET['id']);
             $twigview = $this->getTwig();
             $tpl = $twigview->load('Backend/managerupdatecomment.twig');
             echo $tpl->render(array('formCommentViews' => $formCommentViews));
-        }
-        else {
-            $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $php_session->redirect('/blog/connect');
         }
     }
 
     function commentUpdateValid()
     {
-        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
-            $validCommentUpdate = new CommentManager();
-            $validCommentView = $validCommentUpdate->updateCommentValid($_GET['id']);
-            $php_session = new PHPSession();
-            $php_session->set('succes', 'Commentaire validé.');
-            $php_session->redirect('/blog/postsmanager/', $_SESSION['id']);
+        if (!isset($_SESSION['pseudo'])) {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
         } else {
-            $php_session = new PHPSession();
-            $php_session->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $php_session->redirect('/blog/connect');
+            $this->comment()->updateCommentValid($_GET['id']);
+            $this->phpSession()->set('succes', 'Commentaire validé.');
+            $this->phpSession()->redirect('/blog/postsmanager/', $_SESSION['id']);
         }
     }
 }
