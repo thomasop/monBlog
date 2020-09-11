@@ -33,7 +33,7 @@ class ControllerPost extends Controller
 
     function postsManager()
     {
-        if (!isset($_SESSION['pseudo'])) {
+        if (!isset($_SESSION['pseudo']) && !isset($_SESSION['id'])) {
             $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
             $this->phpSession()->redirect('/blog/connect');
         } else {
@@ -46,7 +46,7 @@ class ControllerPost extends Controller
 
     function postFormUpdate()
     {
-        if (!isset($_SESSION['pseudo'])) {
+        if (!isset($_SESSION['pseudo']) && !isset($_SESSION['id'])) {
             $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
             $this->phpSession()->redirect('/blog/connect');
         } else {
