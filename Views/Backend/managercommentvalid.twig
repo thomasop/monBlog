@@ -33,8 +33,8 @@
                 <p>le {{ comMana.comment_date }} ecrit par
                 {{ comMana.author }} 
                     </p>
-                <a class="btn btn-outline-primary" href="/blog/commentupdateform/{{ comMana.id }}">Modifier</a>
-                <a class="btn btn-outline-danger" href="/blog/commentdelete/{{ comMana.id }}">Supprimer</a>
+                <a class="btn btn-outline-primary" href="/blog/commentupdateform/{{ comMana.id_comment }}">Modifier</a>
+                <a class="btn btn-outline-danger" href="/blog/commentdelete/{{ comMana.id_comment }}">Supprimer</a>
             </div>
             {% endfor %}
         {% endif %}
@@ -47,7 +47,7 @@
     
     <footer class="text-white bg-primary mt-3 card-group">
         <div class="card-body">
-            <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
+            <p>Bienvenue sur mon blog professionel, vous pouvez gérer nos posts <a class="text-success" href="/blog/postsmanager/{{ _session.id }}">ici</a></p>
         </div>
         <div class="card-body">
             <div>

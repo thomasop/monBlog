@@ -21,7 +21,7 @@
             <a class="navbar-brand" href="/blog/registration">Inscription</a></li>
         </ul>    
     </header>    
-    <a class="ml-3 mb-1 btn btn-outline-primary" href="/blog/posts">Retour à la liste des posts</a></p>
+    <a class="ml-3 mb-1 btn btn-outline-primary" href="/blog/posts/1">Retour à la liste des posts</a></p>
     <div class="card">
         <h3 class="card-header">{{ postview.title|upper }}</h3>
         <div class="card-body">
@@ -41,7 +41,7 @@
         <div class="mx-4 my-3 px-4 py-4 border border-primary">
             <p>Ecrire un commentaire</p>
             <form class="" action="/blog/commentadd" method="POST" >
-                <input type="hidden" name="postId" id="" value="{{ postview.id }} " />
+                <input type="hidden" name="postId" id="" value="{{ postview.id_post }} " />
                 <div class="form-group">
                     <label for="author">Auteur</label><br />
                     <input type="text" id="author" name="author" class="form-control" />

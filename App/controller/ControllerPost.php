@@ -4,6 +4,8 @@ namespace App\controller;
 
 use App\manager\PostManager;
 use App\manager\CommentManager;
+use App\manager\AdminManager;
+use App\tool\Paging;
 
 class ControllerPost extends Controller
 {
@@ -25,10 +27,21 @@ class ControllerPost extends Controller
     function postsView()
     {
         $postsmanager = new PostManager();
-        $postsview = $postsmanager->showPosts();
+        $paging = new Paging();
+        $page = $paging->page();
+        $nextpage = $paging->nextPage();
+        $previouspage = $paging->previousPage();
+        $firstin = $page[1];
+        $currentpage = $page[0];
+        $numberofpages = $page[2];
+        $postsview = $postsmanager->showPosts($firstin);
         $twigview = $this->getTwig();
         $twigpostsview = $twigview->load('Frontend/posts.twig');
-        echo $twigpostsview->render(array('postsview' => $postsview));
+        echo $twigpostsview->render(array('postsview' => $postsview,
+                                    'currentpage' => $currentpage,
+                                'nextpage' => $nextpage,
+                            'previouspage' => $previouspage,
+                        'numberofpages' => $numberofpages));
     }
 
     function postsManager()
@@ -36,7 +49,8 @@ class ControllerPost extends Controller
         if (!isset($_SESSION['pseudo']) && !isset($_SESSION['id'])) {
             $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
             $this->phpSession()->redirect('/blog/connect');
-        } else {
+        } elseif (!$_POST) {
+            $token = $_SESSION['token'];
             $postsadminview = $this->post()->showPostsUser($_GET['id']);
             $twigview = $this->getTwig();
             $twigpostsmanager = $twigview->load('Backend/managerposts.twig');
@@ -74,13 +88,12 @@ class ControllerPost extends Controller
     function postCreate()
     {
         if (isset($_SESSION['pseudo'])) {
-            $postcreate = new PostManager();
+            $postcreate = new AdminManager();
             $adminview = $postcreate->showAdmin($_GET['id']);
             $twigview = $this->getTwig();
             $twigpostcreate = $twigview->load('Backend/managercreatepost.twig');
             echo $twigpostcreate->render();
         } else {
-           
             $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
             $this->phpSession()->redirect('/blog/connect');
         }
@@ -88,12 +101,12 @@ class ControllerPost extends Controller
 
     function postAdd($utilisateurId, $title, $chapo, $content)
     {
-        if (isset($_SESSION['pseudo'])) {
+        if (isset($_SESSION['pseudo']) && isset($_POST['author']) && isset($_POST['comment'])){
             $postmanager = new PostManager();
             $postaddview = $postmanager->createPost($utilisateurId, $title, $chapo, $content);
-
             if ($postaddview === false) {
-                throw new MonException('Impossible d\'ajouter le post !');
+                $this->phpSession()->set('succes', 'Impossible d\'ajouter le post !');
+                $this->phpSession()->redirect('/blog/postsmanager/', $_SESSION['id']);
             } elseif (!empty($_POST)) {
                 $this->phpSession()->set('succes', 'Post ajouté.');
                 $this->phpSession()->redirect('/blog/postsmanager/', $_SESSION['id']);
@@ -143,4 +156,5 @@ class ControllerPost extends Controller
             $twigcommentmanager = $twigview->load('Backend/managercommentvalid.twig');
             echo $twigcommentmanager->render(array('postCommentAdminView' => $postCommentAdminView, 'commentView' => $commentView));
         }
-    }  
+    }
+}

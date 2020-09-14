@@ -25,17 +25,19 @@ class ControllerUser extends Controller
     function adminShows()
     {
         if (isset($_SESSION['pseudo'])) {
-            $pseudo = $_SESSION['pseudo'];
-            $motdepasse = $_SESSION['motdepasse'];
-            $loginmanager = new AdminManager();
-            $loginvalid = $loginmanager->showAdmins();
-            $loginvalidadmin = $loginmanager->showAdminsValid();
-            $twigview = $this->getTwig();
-            $twigadminshows = $twigview->load('Backend/managervalid.twig');
-            echo $twigadminshows->render(array('loginvalid' => $loginvalid,
-                                                'loginvalidadmin' => $loginvalidadmin)); 
-        }
-        else {
+            if (!$_POST) {
+                $token = $_SESSION['token'];
+                $pseudo = $_SESSION['pseudo'];
+                $motdepasse = $_SESSION['motdepasse'];
+                $loginmanager = new AdminManager();
+                $loginvalid = $loginmanager->showAdmins();
+                $loginvalidadmin = $loginmanager->showAdminsValid();
+                $twigview = $this->getTwig();
+                $twigadminshows = $twigview->load('Backend/managervalid.twig');
+                echo $twigadminshows->render(array('loginvalid' => $loginvalid,
+                                                    'loginvalidadmin' => $loginvalidadmin)); 
+            }
+        } else {
             $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
             $this->phpSession()->redirect('/blog/connect');
         }
@@ -62,6 +64,8 @@ class ControllerUser extends Controller
         $user = $login->fetch(PDO::FETCH_OBJ);
         if (!empty($_POST['motdepasse']) && !empty($_POST['pseudo'])) {
             if (!$user) { 
+                $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+                $this->phpSession()->redirect('/blog/connect');
             } else {
                 $mdp = $user->motdepasse;
                 $validPassword = password_verify($_POST['motdepasse'], $mdp);
@@ -72,13 +76,16 @@ class ControllerUser extends Controller
                         $_SESSION['id'] = $user->id_admin;
                         $twigview = $this->getTwig();
                         $twigconnect = $twigview->load('Backend/managerhome.twig');
-                        echo $twigconnect->render(array('user' => $user));
+                        echo $twigconnect->render(array('user' => $user, 'pseudo' => $_SESSION['pseudo'], 'id' => $_SESSION['id']));
                     }
                 } else {
                     $this->phpSession()->set('stop', 'Pseudo ou mot de passe incorrect.');
                     $this->phpSession()->redirect('/blog/connect');
                 }
             }  
+        } else {
+            $this->phpSession()->set('stop', 'Veillez remplir les deux champs.');
+            $this->phpSession()->redirect('/blog/connect');
         }
     }
 
@@ -118,7 +125,7 @@ class ControllerUser extends Controller
             $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
             $this->phpSession()->redirect('/blog/connect');
         } else {
-            $register = $this->admin()->deleteUser($_GET['id']);
+            $this->administrator()->deleteUser($_GET['id']);
             $this->phpSession()->set('succes', 'Admin supprimé.');
             $this->phpSession()->redirect('/blog/admin/', $_SESSION['id']);
         }

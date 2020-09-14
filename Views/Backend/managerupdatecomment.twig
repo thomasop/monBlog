@@ -20,7 +20,7 @@
     <p><a class="ml-3 mb-1 btn btn-outline-primary" href="/blog/commentmanager/{{ formCommentViews.post_id }}">Retour au post</a></p>
     <h3 class="card-header">Modifier les commentaires ici</h3>
     <div class="mx-4 my-3 px-4 py-4 border border-primary">
-        <form action="/blog/commentupdate/{{ formCommentViews.id }} "method="POST">
+        <form action="/blog/commentupdate/{{ formCommentViews.id_comment }} "method="POST">
             <div class="form-group">
                 <label for="title">Title :</label><br />
                 <input class="form-control" type="text" id="author" name="author" value=" {{ formCommentViews.author }} "/>
@@ -36,7 +36,7 @@
     </div>
     <footer class="text-white bg-primary mt-3 card-group">
         <div class="card-body">
-            <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
+            <p>Bienvenue sur mon blog professionel, vous pouvez gérer nos posts <a class="text-success" href="/blog/postsmanager/{{ _session.id }}">ici</a></p>
         </div>
         <div class="card-body">
             <div>

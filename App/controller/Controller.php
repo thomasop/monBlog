@@ -26,4 +26,29 @@ class controller
         return $this->twig;
     }
     
+    public function phpSession(){
+        $php_session = new PHPSession();
+        return $php_session;
+    }
+
+    public function comment(){
+        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
+            $commentmanager = new CommentManager();
+            return $commentmanager;
+        }
+    }
+
+    public function post(){
+        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
+            $postmanager = new PostManager();
+            return $postmanager;
+        }
+    }
+
+    public function administrator(){
+        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
+            $adminmanager = new AdminManager();
+            return $adminmanager;
+        }
+    }
 }

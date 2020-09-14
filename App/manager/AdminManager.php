@@ -12,7 +12,7 @@ class AdminManager extends Manager
     public function adminOk($pseudo, $motdepasse)
     {
         $bd = $this->connection();
-        $bdconnect = $bd->prepare('SELECT id, motdepasse FROM administrateur WHERE pseudo = ? AND statut = 1');
+        $bdconnect = $bd->prepare('SELECT id_admin, motdepasse FROM administrateur WHERE pseudo = ? AND statut = 1');
         $bdconnect->execute(array($pseudo));
         return $bdconnect;  
     }
@@ -28,7 +28,7 @@ class AdminManager extends Manager
     public function updateAdminValid($id)
     {
         $bd = $this->connection();
-        $bdadminupdate = $bd->prepare('UPDATE administrateur SET statut = 1 WHERE id = ?');
+        $bdadminupdate = $bd->prepare('UPDATE administrateur SET statut = 1 WHERE id_admin = ?');
         $bdadminupdate->execute(array($id));
         return $bdadminupdate;
     }
@@ -36,12 +36,12 @@ class AdminManager extends Manager
     public function showAdmins()
     {
         $bd = $this->connection();
-        $bdadmins = $bd->prepare('SELECT id, pseudo, motdepasse FROM administrateur WHERE statut is NULL ');
+        $bdadmins = $bd->prepare('SELECT id_admin, pseudo, motdepasse FROM administrateur WHERE statut is NULL ');
         $bdadmins->execute();
         $admins = [];
         while (($riw = $bdadmins->fetch(PDO::FETCH_ASSOC)) !== false) {
             $admin = new Admin([
-                'id'=>$riw['id'],
+                'id'=>$riw['id_admin'],
                 'pseudo'=>$riw['pseudo'],
                 'motdepasse'=>$riw['motdepasse'],
             ]);
@@ -54,12 +54,12 @@ class AdminManager extends Manager
     public function showAdminsValid()
     {
         $bd = $this->connection();
-        $bdadmins = $bd->prepare('SELECT id, pseudo, motdepasse FROM administrateur WHERE statut = 1 ');
+        $bdadmins = $bd->prepare('SELECT id_admin, pseudo, motdepasse FROM administrateur WHERE statut = 1 ');
         $bdadmins->execute();
         $admins = [];
         while (($riw = $bdadmins->fetch(PDO::FETCH_ASSOC)) !== false) {
             $admin = new Admin([
-                'id'=>$riw['id'],
+                'id'=>$riw['id_admin'],
                 'pseudo'=>$riw['pseudo'],
                 'motdepasse'=>$riw['motdepasse'],
             ]);
@@ -72,7 +72,7 @@ class AdminManager extends Manager
     public function showAdmin($utilisateurId)
     {
         $bd = $this->connection();
-        $bdadmin = $bd->prepare('SELECT id, pseudo FROM administrateur WHERE id = ?');
+        $bdadmin = $bd->prepare('SELECT id_admin, pseudo FROM administrateur WHERE id_admin = ?');
         $bdadmin->execute(array($utilisateurId));
         $admin = $bdadmin->fetch();
         return $admin;
@@ -80,7 +80,7 @@ class AdminManager extends Manager
     public function deleteUser($utilisateurId)
     {
         $bd = $this->connection();
-        $bduserdelete = $bd->prepare('DELETE FROM administrateur WHERE id=?');
+        $bduserdelete = $bd->prepare('DELETE FROM administrateur WHERE id_admin=?');
         $bduserdelete->execute(array($utilisateurId));
     }
 }

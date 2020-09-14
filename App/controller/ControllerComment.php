@@ -11,15 +11,21 @@ class ControllerComment extends Controller
     
     function commentAdd($postId, $author, $comment)
     {
-        $postid = trim($postId);
-        $commentManager = new CommentManager();
-        $affectedLines = $commentManager->createComment($postId, $author, $comment);
+        if (isset($_POST['author']) && isset($_POST['comment'])) {
+            $postid = trim($postId);
+            $commentManager = new CommentManager();
+            $affectedLines = $commentManager->createComment($postId, $author, $comment);
             if ($affectedLines === false) {
-                throw new Exception('Impossible d\'ajouter le commentaire !');
+                $this->phpSession()->set('succes', 'Impossible d\'ajouter le commentaire !');
+                $this->phpSession()->redirect('/blog/comment/', $postid); 
             } elseif (!empty($_POST)) {
                 $this->phpSession()->set('succes', 'Commentaire ajouté, un administrateur le validera.');
                 $this->phpSession()->redirect('/blog/comment/', $postid); 
             }
+        } else {
+            $this->phpSession()->set('succes', 'Veuillez remplir les deux champs.');
+            $this->phpSession()->redirect('/blog/comment/', $postid); 
+        }
     }
 
     function commentDelete()
@@ -27,9 +33,7 @@ class ControllerComment extends Controller
         if (!isset($_SESSION['pseudo'])) {
             $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
             $this->phpSession()->redirect('/blog/connect');
-            
-        }
-        else {
+        } else {
             $this->comment()->deleteComment($_GET['id']);
             $this->phpSession()->set('succes', 'Commentaire supprimé.');
             $this->phpSession()->redirect('/blog/postsmanager/', $_SESSION['id']);

@@ -22,25 +22,32 @@
             <a class="navbar-brand" href="/blog/logout">Déconnexion</a></li>
         </ul>     
     </header>
+    <form class="form-group" action="/blog/connection" method="POST">
+        <input type="hidden" name="pseudo" value="{{ _session.pseudo }}" ></br>
+        <input type="hidden" name="motdepasse" value="{{ _session.motdepasse }}"></br>
+        <input type="submit" name="checkconnexion" value="Retour a l'accueil manager" class="btn btn-primary ml-3">
+        <input type="hidden" name="token" id="token" value="{{ _session.token }}" />
+    </form>
     <div >
         <h3 class="card card-header">Derniers posts du blog</h3>
         <a class="my-3 ml-3 btn btn-outline-primary" href="/blog/postcreate/{{ _session.id }}">Create</a>
-        {% for post in postsadminview %}
+        {% for postmanager in postsadminview %}
         <div class="card-body border border-primary" >  
-          <h5 class="card-title">{{ post.title |upper}} </h5> 
-          <p class="card-text">Chapo : {{ post.chapo }}....</p>
-          <p class="card-text">Contenue : {{ post.content }}</p>
-          <p>Derniere modification : {{ post.date_modif }}</p>
-          <a class="btn btn-outline-success" href="/blog/commentmanager/{{ post.id }} ">Commentaires validé</a>
-          <a class="btn btn-outline-primary" href="/blog/postform/{{ post.id }}">Modifiez</a>
-                <a class="btn btn-outline-danger" href="/blog/postdelete/{{ post.id }}">Supprimez</a>
-            <a class="btn btn-outline-success" href="/blog/postmanager/{{ post.id }}">Commentaires à valider</a>
+          <h5 class="card-title">{{ postmanager.title |upper}} </h5> 
+          <p class="card-text">Chapo : {{ postmanager.chapo }}....</p>
+          <p class="card-text">Contenue : {{ postmanager.content }}</p>
+          <p>Derniere modification : {{ postmanager.date_modif }}</p>
+          
+          <a class="btn btn-outline-success" href="/blog/commentmanager/{{ postmanager.id_post }} ">Commentaires validé</a>
+          <a class="btn btn-outline-primary" href="/blog/postform/{{ postmanager.id_post }}">Modifiez</a>
+                <a class="btn btn-outline-danger" href="/blog/postdelete/{{ postmanager.id_post }}">Supprimez</a>
+            <a class="btn btn-outline-success" href="/blog/postmanager/{{ postmanager.id_post }}">Commentaires à valider</a>
         </div>
       {% endfor %} 
     </div>
     <footer class="text-white bg-primary mt-3 card-group">
     <div class="card-body">
-        <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
+        <p>Bienvenue sur mon blog professionel, vous pouvez gérer nos posts <a class="text-success" href="/blog/postsmanager/{{ _session.id }}">ici</a></p>
     </div>
     <div class="card-body">
         <div>
@@ -55,4 +62,4 @@
       <a class="text-success" href="/blog/logout">Déconnexion</a>
     </div>
   </footer>
- {% endblock %}   
+ {% endblock %}     

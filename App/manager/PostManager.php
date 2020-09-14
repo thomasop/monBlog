@@ -7,15 +7,16 @@ use App\entity\Post;
 
 class PostManager extends Manager
 {
-    public function showPosts()
+    public function showPosts($firstin)
     { 
         $bd = $this->connection();
-        $bdposts = $bd->prepare('SELECT id, title, chapo, content, DATE_FORMAT(date_modif, \'%d/%m/%Y %Hh%imin\') AS date_modif FROM posts ORDER BY id DESC LIMIT 0, 10');
+        $bdposts = $bd->prepare('SELECT id_post, title, chapo, content, DATE_FORMAT(date_modif, \'%d/%m/%Y %Hh%imin\') AS date_modif FROM posts ORDER BY id_post DESC LIMIT :firstin, 4');
+        $bdposts->bindValue(':firstin', $firstin, PDO::PARAM_INT);
         $bdposts->execute();
         $posts = [];
         while (($row = $bdposts->fetch(PDO::FETCH_ASSOC)) !== false) {
             $post = new Post([
-                'id'=>$row['id'],
+                'id'=>$row['id_post'],
                 'title'=>$row['title'],
                 'chapo'=>$row['chapo'],
                 'content'=>$row['content'],
@@ -29,12 +30,12 @@ class PostManager extends Manager
     public function showPostsUser($id_utilisateur)
     { 
         $bd = $this->connection();
-        $bdpostsuser = $bd->prepare('SELECT id, id_utilisateur, title, chapo, content, DATE_FORMAT(date_modif, \'%d/%m/%Y %Hh%imin\') AS date_modif FROM posts WHERE id_utilisateur = ? ORDER BY id DESC LIMIT 0, 10');
+        $bdpostsuser = $bd->prepare('SELECT id_post, id_utilisateur, title, chapo, content, DATE_FORMAT(date_modif, \'%d/%m/%Y %Hh%imin\') AS date_modif FROM posts WHERE id_utilisateur = ? ORDER BY id_post DESC LIMIT 0, 10');
         $bdpostsuser->execute(array($id_utilisateur));
         $postsuser = [];
         while (($row = $bdpostsuser->fetch(PDO::FETCH_ASSOC)) !== false) {
             $postuser = new Post([
-                'id'=>$row['id'],
+                'id'=>$row['id_post'],
                 'id_utilisateur'=>$row['id_utilisateur'],
                 'title'=>$row['title'],
                 'chapo'=>$row['chapo'],
@@ -49,7 +50,7 @@ class PostManager extends Manager
     public function showPost($postId)
     {
         $bd = $this->connection();
-        $bdpost = $bd->prepare('SELECT id, id_utilisateur, title, chapo, content FROM posts WHERE id = ?');
+        $bdpost = $bd->prepare('SELECT id_post, id_utilisateur, title, chapo, content FROM posts WHERE id_post = ?');
         $bdpost->execute(array($postId));
         $post = $bdpost->fetch();
         return $post;
@@ -69,7 +70,7 @@ class PostManager extends Manager
     public function showPostUser($utilisateurId)
     {
         $bd = $this->connection();
-        $bdpost = $bd->prepare('SELECT id, id_utilisateur,  title, content FROM posts WHERE id = ?');
+        $bdpost = $bd->prepare('SELECT id_post, id_utilisateur,  title, content FROM posts WHERE id_post = ?');
         $bdpost->execute(array($utilisateurId));
         $post = $bdpost->fetch();
         return $post;
@@ -84,8 +85,8 @@ class PostManager extends Manager
     public function updatePost($postId, $title, $chapo, $content)
     {
         $bd = $this->connection();
-        $bdpostupdate = $bd->prepare('UPDATE posts SET title = :title, chapo = :chapo, content = :content WHERE id = :id');
-        $bdpostupdate->bindValue(':id', $postId, PDO::PARAM_STR);
+        $bdpostupdate = $bd->prepare('UPDATE posts SET title = :title, chapo = :chapo, content = :content WHERE id_post = :id_post');
+        $bdpostupdate->bindValue(':id_post', $postId, PDO::PARAM_STR);
         $bdpostupdate->bindValue(':title', $title, PDO::PARAM_STR);
         $bdpostupdate->bindValue(':chapo', $chapo, PDO::PARAM_STR);
         $bdpostupdate->bindValue(':content', $content, PDO::PARAM_STR);
@@ -96,7 +97,7 @@ class PostManager extends Manager
     public function deletePost($postId)
     {
         $bd = $this->connection();
-        $bdpostdelete = $bd->prepare('DELETE FROM posts WHERE id=?');
+        $bdpostdelete = $bd->prepare('DELETE FROM posts WHERE id_post=?');
         $bdpostdelete->execute(array($postId));
     }
 }

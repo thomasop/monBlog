@@ -1,6 +1,6 @@
 {% extends "template.twig" %}
 {% block title %}
-{% set title = 'Modifiez post' %} 
+{% set title = 'Modifier Post' %} 
 {{ title }}
 {% endblock %}
 {% block head %}
@@ -20,7 +20,7 @@
     <a class="ml-3 mb-3 btn btn-outline-primary" href="/blog/postsmanager/{{ postformview.id_utilisateur }}">Retour à la liste des posts</a>
     <p class="card card-header">Modifiez un post:</p>
     <div class="mx-4 my-3 px-4 py-4 border border-primary">
-        <form action="/blog/postupdate/{{ postformview.id }}  " method="post"  >
+        <form action="/blog/postupdate/{{ postformview.id_post }}  " method="post"  >
             <div class="form-group">
                 <label for="title">Titre</label><br />
                 <input class="form-control" type="text" id="author" name="title" value=" {{ postformview.title }} "/>
@@ -41,7 +41,7 @@
     </div>
     <footer class="text-white bg-primary mt-5 card-group">
         <div class="card-body">
-            <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
+            <p>Bienvenue sur mon blog professionel, vous pouvez gérer nos posts <a class="text-success" href="/blog/postsmanager/{{ _session.id }}">ici</a></p>
         </div>
         <div class="card-body">
             <div>

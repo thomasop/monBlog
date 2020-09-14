@@ -33,8 +33,8 @@
                 <p>le {{ commentMana.comment_date }} écrit par
                 {{ commentMana.author }} 
                     </p>
-                <a class="btn btn-outline-success" href="/blog/commentupdatevalid/{{ commentMana.id }}">Valider ce commentaire ?</a>
-                <a class="btn btn-outline-danger" href="/blog/commentdelete/{{ commentMana.id }}">Supprimer</a>
+                <a class="btn btn-outline-success" href="/blog/commentupdatevalid/{{ commentMana.id_comment }}">Valider ce commentaire ?</a>
+                <a class="btn btn-outline-danger" href="/blog/commentdelete/{{ commentMana.id_comment }}">Supprimer</a>
             </div>
             {% endfor %}
         {% endif %}
@@ -44,7 +44,7 @@
     </div>
     <footer class="text-white bg-primary mt-3 card-group">
         <div class="card-body">
-            <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
+            <p>Bienvenue sur mon blog professionel, vous pouvez gérer nos posts <a class="text-success" href="/blog/postsmanager/{{ _session.id }}">ici</a></p>
         </div>
         <div class="card-body">
             <div>

@@ -22,31 +22,37 @@
             <a class="navbar-brand" href="/blog/logout">Déconnexion</a></li>
         </ul>   
     </header>
+    <form class="form-group" action="/blog/connection" method="POST">
+        <input type="hidden" name="pseudo" value="{{ _session.pseudo }}"  ></br>
+        <input type="hidden" name="motdepasse" value="{{ _session.motdepasse }}" ></br>
+        <input type="submit" name="checkconnexion" value="Retour a l'accueil manager" class="btn btn-primary ml-3">
+        <input type="hidden" name="token" id="token" value="{{ _session.token }}" />
+    </form>
     <div class="m">
         {% if loginvalid %}
-            <p class="card card-header" >Administrateur à valider:</p>
+            <p class="card card-header mt-5 mb-5" >Administrateur à valider:</p>
             <div>
                 {% for admin in loginvalid %}
-                    <p>{{ admin.id }}
-                {{ admin.pseudo }}
-                Voulez vous valider cet administrateur?
-                    <a class="btn btn-primary" href="/blog/adminvalid/{{ admin.id }}">oui?</a>
-                    <a class="btn btn-danger" href="/blog/admindelete/{{ admin.id }}">Ou le supprimer?</a>
+                    <p>
+                {{ admin.pseudo }}</p>
+                <p>Voulez vous valider cet administrateur?
+                    <a class="btn btn-primary" href="/blog/adminvalid/{{ admin.id_admin }}">oui?</a>
+                    <a class="btn btn-danger" href="/blog/admindelete/{{ admin.id_admin }}">Ou le supprimer?</a>
                     </p>
                 
                 {% endfor %}
                 </div>
         {% endif %}
-        <p class="card card-header" >Tous les administrateurs:</p>
+        <p class="card card-header mt-5 mb-5" >Tous les administrateurs:</p>
         {% for adminvalid in loginvalidadmin %} 
-            <p>{{ adminvalid.id }}
+            <p>
             {{ adminvalid.pseudo }}
-            <a class="" href="/blog/admindelete/{{ adminvalid.id }}">Supprimez?</a>
+            <a class="" href="/blog/admindelete/{{ adminvalid.id_admin }}">Supprimez?</a></p>
         {% endfor %}
     </div>
     <footer class="text-white bg-primary mt-3 card-group">
         <div class="card-body">
-            <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts">ici</a></p>
+            <p>Bienvenue sur mon blog professionel, vous pouvez gérer nos posts <a class="text-success" href="/blog/postsmanager/{{ _session.id }}">ici</a></p>
         </div>
         <div class="card-body">
             <div>
