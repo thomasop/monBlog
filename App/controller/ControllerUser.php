@@ -121,13 +121,14 @@ class ControllerUser extends Controller
     }
 
     function adminDelete(){
-        if (!isset($_SESSION['pseudo'])) {
-            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $this->phpSession()->redirect('/blog/connect');
-        } else {
-            $this->administrator()->deleteUser($_GET['id']);
+        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
+            $adminmanager = new AdminManager();
+            $adminmanager->deleteUser($_GET['id']);
             $this->phpSession()->set('succes', 'Admin supprimé.');
             $this->phpSession()->redirect('/blog/admin/', $_SESSION['id']);
-        }
+        } else {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
+        } 
     }
 }
