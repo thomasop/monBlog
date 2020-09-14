@@ -140,16 +140,17 @@ class ControllerPost extends Controller
 
     function commentManager()
     {
-        if (!isset($_SESSION['pseudo'])) {
-            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
-            $this->phpSession()->redirect('/blog/connect');
-            
-        } else {
-            $postCommentAdminView = $this->post()->showPost($_GET['id']);
-            $commentView = $this->comment()->showComments($_GET['id']);
+        if (isset($_SESSION['pseudo']) && isset($_GET['id']) && !empty($_GET['id'])) {
+            $postmanager = new PostManager();
+            $commentmanager = new CommentManager();
+            $postCommentAdminView = $postmanager->showPost($_GET['id']);
+            $commentView = $commentmanager->showComments($_GET['id']);
             $twigview = $this->getTwig();
             $twigcommentmanager = $twigview->load('Backend/managercommentvalid.twig');
             echo $twigcommentmanager->render(array('postCommentAdminView' => $postCommentAdminView, 'commentView' => $commentView));
+        } else {
+            $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
+            $this->phpSession()->redirect('/blog/connect');
         }
     }
 }
