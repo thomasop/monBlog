@@ -101,16 +101,11 @@ class ControllerPost extends Controller
 
     function postAdd($utilisateurId, $title, $chapo, $content)
     {
-        if (isset($_SESSION['pseudo']) && isset($_POST['author']) && isset($_POST['comment'])){
+        if (isset($_SESSION['pseudo']) && isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {
             $postmanager = new PostManager();
             $postaddview = $postmanager->createPost($utilisateurId, $title, $chapo, $content);
-            if ($postaddview === false) {
-                $this->phpSession()->set('succes', 'Impossible d\'ajouter le post !');
-                $this->phpSession()->redirect('/blog/postsmanager/', $_SESSION['id']);
-            } elseif (!empty($_POST)) {
-                $this->phpSession()->set('succes', 'Post ajouté.');
-                $this->phpSession()->redirect('/blog/postsmanager/', $_SESSION['id']);
-            }
+            $this->phpSession()->set('succes', 'Post ajouté.');
+            $this->phpSession()->redirect('/blog/postsmanager/', $_SESSION['id']);
         } else {
             $this->phpSession()->set('stop', 'Vous n\'avez pas acces a cette page.');
             $this->phpSession()->redirect('/blog/connect');
