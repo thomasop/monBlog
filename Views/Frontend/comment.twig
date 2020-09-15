@@ -23,17 +23,17 @@
     </header>    
     <a class="ml-3 mb-1 btn btn-outline-primary" href="/blog/posts/1">Retour à la liste des posts</a></p>
     <div class="card">
-        <h3 class="card-header">{{ postview.title|upper }}</h3>
+        <h3 class="card-header">{{ postview.title|upper|striptags }}</h3>
         <div class="card-body">
-            <p class="card-text">{{ postview.content }}</p>    
+            <p class="card-text">{{ postview.content|raw }}</p>    
         </div>
         <div class="card">
             <h3 class="card-header">Commentaires</h3>
             {% for comment in commentsview %}
             <div class="card-body">
-                <p>{{ comment.comment }}</p>
+                <p>{{ comment.comment|raw }}</p>
                 <p>le {{ comment.comment_date }} écrit par
-                {{ comment.author }} 
+                {{ comment.author|striptags }} 
                     </p>
             </div>
             {% endfor %}

@@ -33,9 +33,9 @@
         <a class="my-3 ml-3 btn btn-outline-primary" href="/blog/postcreate/{{ _session.id }}">Create</a>
         {% for postmanager in postsadminview %}
         <div class="card-body border border-primary" >  
-          <h5 class="card-title">{{ postmanager.title |upper}} </h5> 
-          <p class="card-text">Chapo : {{ postmanager.chapo }}....</p>
-          <p class="card-text">Contenue : {{ postmanager.content }}</p>
+          <h5 class="card-title">{{ postmanager.title |upper|striptags}} </h5> 
+          <p class="card-text">Chapo : {{ postmanager.chapo|striptags }}....</p>
+          <p class="card-text">Contenue : {{ postmanager.content|raw }}</p>
           <p>Derniere modification : {{ postmanager.date_modif }}</p>
           
           <a class="btn btn-outline-success" href="/blog/commentmanager/{{ postmanager.id_post }} ">Commentaires validé</a>

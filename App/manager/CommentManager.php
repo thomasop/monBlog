@@ -9,7 +9,7 @@ class CommentManager extends Manager
     public function showComments($postId)
     {
         $bd = $this->connection();
-        $bdcommentsvalid = $bd->prepare('SELECT id_comment, author, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y %Hh%imin\') AS comment_date FROM comments WHERE post_id = ? AND valid = 1 ORDER BY id_comment DESC');
+        $bdcommentsvalid = $bd->prepare('SELECT id_comment, author, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin\') AS comment_date FROM comments WHERE post_id = ? AND valid = 1 ORDER BY id_comment DESC');
         $bdcommentsvalid->execute(array($postId));
         $commentsvalid = [];
         while (($raw = $bdcommentsvalid->fetch(PDO::FETCH_ASSOC)) !== false) {
@@ -36,7 +36,7 @@ class CommentManager extends Manager
     public function showCommentsNotValid($postId)
     {
         $bd = $this->connection();
-        $bdcomments = $bd->prepare('SELECT id_comment, author, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y %Hh%imin\') AS comment_date FROM comments WHERE post_id = ? AND valid IS NULL ORDER BY id_comment DESC');
+        $bdcomments = $bd->prepare('SELECT id_comment, author, comment, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin\') AS comment_date FROM comments WHERE post_id = ? AND valid IS NULL ORDER BY id_comment DESC');
         $bdcomments->execute(array($postId));
         $comments = [];
         while (($rew = $bdcomments->fetch(PDO::FETCH_ASSOC)) !== false) {

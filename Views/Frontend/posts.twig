@@ -19,8 +19,8 @@
     <h3 class="card-header">Derniers posts du blog</h3>
     {% for post in postsview %}
     <div class="card-body border border-primary" > 
-        <h5 class="card-title">{{ post.title |upper}} </h5>
-        <p class="card-text">{{ post.chapo }}....</p>
+        <h5 class="card-title">{{ post.title |upper|striptags}} </h5>
+        <p class="card-text">{{ post.chapo|striptags }}....</p>
         <p>Derniere modification : {{ post.date_modif }}</p>
         <a class="btn btn-primary" href="/blog/comment/{{ post.id_post }}">Suite de l'article</a><br>
     </div>         

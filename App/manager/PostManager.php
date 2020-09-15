@@ -10,7 +10,7 @@ class PostManager extends Manager
     public function showPosts($firstin)
     { 
         $bd = $this->connection();
-        $bdposts = $bd->prepare('SELECT id_post, title, chapo, content, DATE_FORMAT(date_modif, \'%d/%m/%Y %Hh%imin\') AS date_modif FROM posts ORDER BY id_post DESC LIMIT :firstin, 4');
+        $bdposts = $bd->prepare('SELECT id_post, title, chapo, content, DATE_FORMAT(date_modif, \'%d/%m/%Y à %Hh%imin\') AS date_modif FROM posts ORDER BY id_post DESC LIMIT :firstin, 4');
         $bdposts->bindValue(':firstin', $firstin, PDO::PARAM_INT);
         $bdposts->execute();
         $posts = [];
@@ -30,7 +30,7 @@ class PostManager extends Manager
     public function showPostsUser($id_utilisateur)
     { 
         $bd = $this->connection();
-        $bdpostsuser = $bd->prepare('SELECT id_post, id_utilisateur, title, chapo, content, DATE_FORMAT(date_modif, \'%d/%m/%Y %Hh%imin\') AS date_modif FROM posts WHERE id_utilisateur = ? ORDER BY id_post DESC LIMIT 0, 10');
+        $bdpostsuser = $bd->prepare('SELECT id_post, id_utilisateur, title, chapo, content, DATE_FORMAT(date_modif, \'%d/%m/%Y à %Hh%imin\') AS date_modif FROM posts WHERE id_utilisateur = ? ORDER BY id_post DESC LIMIT 0, 15');
         $bdpostsuser->execute(array($id_utilisateur));
         $postsuser = [];
         while (($row = $bdpostsuser->fetch(PDO::FETCH_ASSOC)) !== false) {

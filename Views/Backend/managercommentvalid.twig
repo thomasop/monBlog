@@ -19,9 +19,9 @@
     </header>
     <a class="ml-3 mb-3 btn btn-outline-primary" href="/blog/postsmanager/{{ postCommentAdminView.id_utilisateur }}">Retour à la liste des billets</a>
     <div class="card">
-        <h3 class="card-header">{{ postCommentAdminView.title|upper }}</h3>
+        <h3 class="card-header">{{ postCommentAdminView.title|upper|striptags }}</h3>
         <div class="card-body">
-            <p class="card-text">{{ postCommentAdminView.content }}</p>    
+            <p class="card-text">{{ postCommentAdminView.content|raw }}</p>    
         </div>  
     </div>
     <div class="card">
@@ -29,9 +29,9 @@
         {% if commentView %}
             {% for comMana in commentView %}
             <div class="card-body">
-                <p>{{ comMana.comment }}</p>
+                <p>{{ comMana.comment|raw }}</p>
                 <p>le {{ comMana.comment_date }} ecrit par
-                {{ comMana.author }} 
+                {{ comMana.author|striptags }} 
                     </p>
                 <a class="btn btn-outline-primary" href="/blog/commentupdateform/{{ comMana.id_comment }}">Modifier</a>
                 <a class="btn btn-outline-danger" href="/blog/commentdelete/{{ comMana.id_comment }}">Supprimer</a>
