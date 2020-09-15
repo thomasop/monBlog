@@ -2,6 +2,8 @@ Openclassroom-P5
 
 Welcome in your blog php.
 
+{<img src="https://api.codeclimate.com/v1/badges/85b1f6e4963a0243f02c/maintainability" />}[https://codeclimate.com/github/thomasop/monBlog/maintainability]
+
 Prerequisite:
 Download Wamp, Xampp or Mamp.
 
