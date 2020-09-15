@@ -1,0 +1,57 @@
+{% extends "template.twig" %}
+{% block title %}
+{% set title = 'Connexion' %} 
+{{ title }}
+{% endblock %}
+{% block head %}
+    {{ parent() }} 
+{% endblock %}
+{% block body %}
+    {% if _flash.getFlashMessage('stop') %}
+    <div class="alert alert-success mt-4" role="alert">
+        <p>{{ _flash.getFlashMessage('stop') }}</p>
+    </div>
+    {% endif %}
+    <header>
+        <ul class="navbar navbar-dark bg-primary d-flex justify-content-around">  
+            <li class="nav-item active list-inline-item">
+            <a class="navbar-brand" href="/blog/">Accueil</a></li>
+            <li class="nav-item active list-inline-item">
+            <a class="navbar-brand" href="/blog/posts/1">Posts</a></li>
+            <li class="nav-item active list-inline-item">
+            <a class="navbar-brand" href="/blog/registration">Inscription</a></li>
+        </ul>    
+    </header>
+    <p class="mx-4 my-5"> Se connecter</p>
+    <div class="mx-4 px-4 py-5 border border-primary">
+        <form class="form-group" action="/blog/connection" method="POST" style="margin-top: 50px;">
+            <div class="form-group">
+                <label>Pseudo : </label>
+                <input type="text" name="pseudo" class="form-control" ></br>
+            </div>
+            <div class="form-group">
+                <label>Mot de passe : </label>
+                <input type="password" name="motdepasse" class="form-control"></br>
+            </div>
+            <input type="submit" name="checkconnexion" value="Se connecter" class="btn btn-primary">
+            <input type="hidden" name="token" id="token" value="{{ token }}" />
+        </form>
+    </div>
+    <footer class="text-white bg-primary mt-5 card-group">
+        <div class="card-body">
+            <p>Bienvenue sur mon blog professionel, vous pouvez voir nos posts <a class="text-success" href="/blog/posts/1">ici</a></p>
+        </div>
+        <div class="card-body">
+            <div>
+                <script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+                <script type="IN/Share" data-url="linkedin.com/in/thomas-da-silva-seabra"></script>
+            </div>
+            <div>
+                <a class="text-success" href="Public/CVtype.pdf.zip">Mon CV est disponible ici!</a>
+            </div>
+        </div> 
+        <div class="card-body">     
+        <a class="text-success" href="/blog/connect">Connexion</a>
+        </div>
+    </footer>
+{% endblock %} 
